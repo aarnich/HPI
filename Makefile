@@ -1,6 +1,6 @@
 #### PROJECT SETTINGS ####
 # The name of the executable to be created
-BIN_NAME := hello
+BIN_NAME := hpi
 # Compiler used
 CC ?= gcc
 # Extension of source files used in the project
@@ -16,7 +16,9 @@ RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
 DCOMPILE_FLAGS = -D DEBUG
 # Add additional include paths
-INCLUDES = -I $(SRC_PATH)
+INCLUDES = -I $(SRC_PATH) $(SRC_PATH)/include $(SRC_PATH)/src $(SRC_PATH)/bin
+#
+#
 # General linker settings
 LINK_FLAGS =
 # Additional release-specific linker settings
@@ -171,9 +173,9 @@ endif
 # Create the directories used in the build
 .PHONY: dirs
 dirs:
-	@echo "Creating directories"
-	@mkdir -p $(dir $(OBJECTS))
-	@mkdir -p $(BIN_PATH)
+	@echo "Creating directories $(dir $(OBJECTS))"
+	@mkdir -p "$(dir $(OBJECTS))"
+	@mkdir -p "$(BIN_PATH)"
 
 # Installs to the set path
 .PHONY: install
