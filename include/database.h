@@ -1,4 +1,14 @@
+
+// ifndef guards
+#ifndef DATABASE_H
+#define DATABASE_H
+
 #include "types.h"
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_IMPRESSIONS 20
+#define MAX_SYMPTOMS 20
 
 typedef enum { MALE, FEMALE } GENDER;
 
@@ -11,29 +21,31 @@ struct Patient {
 
 void initPatient(struct Patient);
 
-struct SymptomDB {
-  int count;
-
-  struct Symptom {
-    short id;
-    String name;
-    String question;
-  } Symptom;
-
-  struct Symptom database[];
+struct Symptom {
+  short id;
+  String name;
+  String question;
 };
 
-void initSymptomDB(struct SymptomDB *);
+struct SymptomDB {
+  int count;
+  struct Symptom database[MAX_SYMPTOMS];
+};
+
+void initSymptomDB(struct SymptomDB);
 
 struct Impression {
   String name;
   short id;
-  int correspondingSymptoms[];
+  int correspondingSymptoms[MAX_IMPRESSIONS];
 };
+void initImpression(struct Impression);
 
 struct ImpressionDB {
   int count;
   struct Impression database[];
 };
 
-void initImpressionDB(struct ImpressionDB *);
+void initImpressionDB(struct ImpressionDB);
+
+#endif

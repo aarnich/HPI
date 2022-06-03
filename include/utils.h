@@ -1,3 +1,7 @@
+// ifndef guards
+#ifndef UTILS_H
+#define UTILS_H
+
 #include "types.h"
 #include <stdarg.h>
 #include <stdio.h>
@@ -19,3 +23,5 @@ void inputHandler(TYPE inputType, ReferenceInput ref, int *input);
 int handleInt();
 
 char handleCh(ReferenceInput ref);
+
+#endif

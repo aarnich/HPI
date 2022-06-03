@@ -1,3 +1,7 @@
+// ifndef guards
+#ifndef INTERFACE_H
+#define INTERFACE_H
+
 #include <stdio.h>
 
 typedef enum T_UI {
@@ -12,3 +16,5 @@ void v_PatientMenu();
 void v_MainMenu();
 
 void interface(uiType ui);
+
+#endif
