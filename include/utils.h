@@ -24,4 +24,11 @@ int handleInt();
 
 char handleCh(ReferenceInput ref);
 
+void drProcessor(char opt);
+
+// this function makes sure user input is deliberate
+void affirmative(char *c, char danger, ReferenceInput ref);
+
+int file_exists(char *filename);
+
 #endif

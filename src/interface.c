@@ -6,6 +6,8 @@ v_MainMenu() {
   printf("D for Doctor\n");
   printf("P for Patient\n");
   printf("E for Exit\n");
+
+  printf("\nEnter your choice: \n");
 }
 
 void
@@ -17,6 +19,26 @@ v_DrMenu() {
   printf("D for Display symptoms\n");
   printf("M for Modify symptoms\n");
   printf("E for Exit\n");
+
+  printf("\nEnter your choice: \n");
 }
 
-void v_PatientMenu();
+void
+v_PatientMenu() {
+  printf("MENU #3 Patient\n\n");
+}
+
+void
+interface(uiType ui) {
+  switch (ui) {
+    case MAIN:
+      v_MainMenu();
+      break;
+    case DOCTOR:
+      v_DrMenu();
+      break;
+    case PATIENT:
+      v_PatientMenu();
+      break;
+  }
+}

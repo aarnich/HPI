@@ -5,9 +5,9 @@
 #include <stdio.h>
 
 typedef enum T_UI {
-  UI_DOCTOR,
-  UI_PATIENT,
-  UI_MAIN_MENU,
+  DOCTOR,
+  PATIENT,
+  MAIN,
 } uiType;
 
 // all functions beginning with v_ are purely visual functions

@@ -8,5 +8,9 @@
 typedef char String[MAX_STRING_LEN];
 typedef char ReferenceInput[MAX_VALID_INPUT_LEN];
 
+typedef char ID[3];
+
+// ID type including the nullbyte
+
 // end ifndef guard
 #endif

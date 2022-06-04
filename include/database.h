@@ -4,11 +4,14 @@
 #define DATABASE_H
 
 #include "types.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define MAX_IMPRESSIONS 20
 #define MAX_SYMPTOMS 20
+#define MAX_STRING 50
+#define TERMINATING_STRING "-1"
 
 typedef enum { MALE, FEMALE } GENDER;
 
@@ -36,8 +39,8 @@ void initSymptomDB(struct SymptomDB);
 
 struct Impression {
   String name;
-  short id;
-  int correspondingSymptoms[MAX_IMPRESSIONS];
+  ID id;
+  ID correspondingSymptoms[21];
 };
 void initImpression(struct Impression);
 
@@ -46,6 +49,10 @@ struct ImpressionDB {
   struct Impression database[];
 };
 
-void initImpressionDB(struct ImpressionDB);
+void initImpressionDB(struct ImpressionDB db);
+
+void readImpressions(struct ImpressionDB *db);
+
+struct Impression readImpression(char *fileName);
 
 #endif
