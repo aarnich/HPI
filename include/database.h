@@ -42,7 +42,7 @@ struct Impression {
   ID id;
   ID correspondingSymptoms[21];
 };
-void initImpression(struct Impression);
+void initImpression(struct Impression input);
 
 struct ImpressionDB {
   int count;
@@ -52,7 +52,5 @@ struct ImpressionDB {
 void initImpressionDB(struct ImpressionDB db);
 
 void readImpressions(struct ImpressionDB *db);
-
-struct Impression readImpression(char *fileName);
 
 #endif

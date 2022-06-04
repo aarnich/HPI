@@ -2,10 +2,16 @@
 #include <stdio.h>
 void
 initImpression(struct Impression input) {
+
+  int idIndex = 0;
   struct Impression prototype = {
-      .id = "-1\0",
-      .name = "NIL\0",
+      .id = TERMINATING_STRING,
+      .name = "NIL",
   };
+
+  for (; idIndex <= MAX_SYMPTOMS; idIndex++) {
+    strcpy(prototype.correspondingSymptoms[idIndex], TERMINATING_STRING);
+  }
   input = prototype;
 }
 
@@ -102,67 +108,40 @@ printSymptomIDs(struct Impression impression) {
 }
 
 struct Impression
-readImpression(char *fileName) {
-  char line[100];
-  FILE *file = fopen(fileName, "r");
+readImpression(char *fileName, FILE *file) {
 
   struct Impression prototype;
   initImpression(prototype);
 
-  fgets(line, 100, file);
-  strcpy(prototype.id, line);
+  char id[10];
+  fgets(id, 10, file);
+  strcpy(prototype.id, id);
   // get the name
-  fgets(line, 100, file);
-  strcpy(prototype.name, line);
+
+  char name[MAX_STRING];
+  fgets(name, MAX_STRING, file);
+  strcpy(prototype.name, name);
 
   // get the string of corresponding symptoms
-  fgets(line, 100, file);
-  readSymptomsID(prototype.correspondingSymptoms, line);
-
-  fclose(file);
+  char symptoms[100];
+  fgets(symptoms, 100, file);
+  readSymptomsID(prototype.correspondingSymptoms, symptoms);
 
   return prototype;
 }
 
-// Read impressions.txt with the format:
+void
+readImpressions(struct ImpressionDB *db) {
+  // open Impressions.txt file
+  FILE *file = fopen("impression.txt", "r");
+  char line[100];
+  fgets(line, 100, file);
+  db->count = atoi(line);
 
-// <number of impressions>
-// <Impression number – starts at 1>
-// <Impression name>
-// <List of Symptoms in numbers >
-// <Impression number >
-// <Impression name>
-// <List of Symptoms in numbers >
-// :
-// <Impression number >
-// <Impression name>
-// <List of Symptoms in numbers >
-
-// void
-// readImpressions(struct ImpressionDB *db) {
-//   // open Impressions.txt file
-//   FILE *fp = fopen("Impressions.txt", "r");
-
-//   char line[100];
-//   fgets(line, 100, fp);
-//   db->count = atoi(line);
-
-//   // read the rest of the file
-//   for (int i = 0; i < db->count; i++) {
-
-//     // read the impression number
-//     fgets(line, 100, fp);
-//     db->database[i].id = atoi(line);
-
-//     // read the impression name
-//     fgets(line, 100, fp);
-//     strcpy(db->database[i].name, line);
-
-//     // read the list of symptoms separated by \n
-//     fgets(line, 100, fp);
-//     for (int j = 0; isNumerical(line); j++) {
-//       db->database[i].correspondingSymptoms[j] = atoi(line);
-//       fgets(line, 100, fp);
-//     }
-//   }
-// }
+  // read the rest of the file
+  int i;
+  for (i = 0; i < db->count - 1; i++) {
+    db->database[i] = readImpression("impression.txt", file);
+  }
+  fclose(file);
+}
