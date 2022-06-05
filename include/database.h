@@ -22,7 +22,7 @@ struct Patient {
   GENDER gender;
 };
 
-void initPatient(struct Patient);
+void initPatient(struct Patient *p);
 
 struct Symptom {
   ID id;
@@ -35,30 +35,32 @@ struct SymptomDB {
   struct Symptom database[MAX_SYMPTOMS];
 };
 
-void initSymptomDB(struct SymptomDB);
+void initSymptomDB(struct SymptomDB *db);
 
 struct Impression {
   String name;
   ID id;
   ID correspondingSymptoms[21];
 };
-void initImpression(struct Impression input);
+void initImpression(struct Impression *input);
 
 struct ImpressionDB {
   int count;
-  struct Impression database[];
+  struct Impression database[MAX_IMPRESSIONS];
 };
 
-void initImpressionDB(struct ImpressionDB db);
+void initImpressionDB(struct ImpressionDB *db);
 
 void readImpressionDB(struct ImpressionDB *db, const char *fileName);
 
 void readSymptomDB(struct SymptomDB *db, const char *fileName);
 
-struct ImpressionDB createNewImpressionDB(int num, struct SymptomDB symptoms);
+void createNewImpressionDB(struct ImpressionDB *db, int num,
+                           struct SymptomDB symptoms);
 
-struct SymptomDB createNewSymptomDB(int num);
+void createNewSymptomDB(struct SymptomDB *db, int num);
 
 void writeSymptoms(struct SymptomDB *db, const char *fileName);
+void writeImpressions(struct ImpressionDB *db, const char *fileName);
 
 #endif

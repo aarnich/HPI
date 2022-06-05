@@ -31,8 +31,10 @@ void affirmative(char *c, char danger, ReferenceInput ref);
 
 int fileExists(const char *filename);
 
-void empty_stdin(void);
+void emptyStdin(void);
 
 void getStr(char *input);
+
+void trim(char *input);
 
 #endif
