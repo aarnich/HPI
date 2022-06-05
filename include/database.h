@@ -10,8 +10,8 @@
 
 #define MAX_IMPRESSIONS 20
 #define MAX_SYMPTOMS 20
-#define MAX_STRING 50
 #define TERMINATING_STRING "-1"
+#define ID_LEN 2
 
 typedef enum { MALE, FEMALE } GENDER;
 
@@ -25,7 +25,7 @@ struct Patient {
 void initPatient(struct Patient);
 
 struct Symptom {
-  short id;
+  ID id;
   String name;
   String question;
 };
@@ -51,6 +51,14 @@ struct ImpressionDB {
 
 void initImpressionDB(struct ImpressionDB db);
 
-void readImpressions(struct ImpressionDB *db);
+void readImpressionDB(struct ImpressionDB *db, const char *fileName);
+
+void readSymptomDB(struct SymptomDB *db, const char *fileName);
+
+struct ImpressionDB createNewImpressionDB(int num, struct SymptomDB symptoms);
+
+struct SymptomDB createNewSymptomDB(int num);
+
+void writeSymptoms(struct SymptomDB *db, const char *fileName);
 
 #endif

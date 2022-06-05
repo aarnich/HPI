@@ -47,7 +47,7 @@ inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
 }
 
 int
-file_exists(char *filename) {
+fileExists(const char *filename) {
   FILE *file;
   if ((file = fopen(filename, "r"))) {
     fclose(file);
@@ -57,17 +57,8 @@ file_exists(char *filename) {
 }
 
 void
-createList() {
-}
-
-void
-drProcessor(char opt) {
-  switch (opt) {
-    // creates a new list of symptoms and impressions
-    case 'C':
-      createList();
-      break;
-  }
+getStr(char *input) {
+  scanf("%49[0-9a-zA-Z ]", input);
 }
 
 void
@@ -86,4 +77,12 @@ affirmative(char *c, char danger, ReferenceInput ref) {
       inputHandler(CHAR, ref, (int *)c);
     }
   }
+}
+
+void
+empty_stdin(void) {
+  int c = getchar();
+
+  while (c != '\n' && c != EOF)
+    c = getchar();
 }

@@ -29,6 +29,10 @@ void drProcessor(char opt);
 // this function makes sure user input is deliberate
 void affirmative(char *c, char danger, ReferenceInput ref);
 
-int file_exists(char *filename);
+int fileExists(const char *filename);
+
+void empty_stdin(void);
+
+void getStr(char *input);
 
 #endif
