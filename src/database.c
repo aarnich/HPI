@@ -258,6 +258,11 @@ getSymptomFromID(struct SymptomDB db, int ID) {
   return db.database[ID - 1];
 }
 
+struct Impression
+getImpressionFromID(struct ImpressionDB db, int ID) {
+  return db.database[ID - 1];
+}
+
 void
 displayImpressionSymptoms(struct Impression imp, struct SymptomDB db) {
   printf("The symptoms of %s are: ", imp.name);

@@ -31,11 +31,15 @@ void writeImpressions(struct ImpressionDB *db, const char *fileName);
 
 void modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db);
 
-struct guessArray getGuessImpressions(struct SymptomDB syDB,
-                                      struct ImpressionDB impDB);
+void initPatient(struct Patient *p);
+void getPatient(struct Patient *p);
+
+void getPatientImpressions(struct SymptomDB sDB, struct ImpressionDB iDB,
+                           struct userImps *ui, struct userSymps *us);
 
 struct Impression getImpressionFromID(struct ImpressionDB db, int ID);
 
-struct Patient getPatient();
+void writeUserDetails(struct Patient p, struct userImps ui,
+                      struct userSymps us);
 
 #endif
