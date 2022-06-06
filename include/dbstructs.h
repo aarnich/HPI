@@ -9,18 +9,24 @@
 #define ID_LEN 2
 
 #include "types.h"
-typedef enum { MALE, FEMALE, NIL } GENDER;
 
-struct guessArray {
+struct userSymps {
+  int arr[MAX_SYMPTOMS];
+  String symName[MAX_SYMPTOMS];
   int count;
-  String Impression[MAX_IMPRESSIONS];
+};
+
+struct userImps {
+  int arr[MAX_IMPRESSIONS];
+  String impName[MAX_IMPRESSIONS];
+  int count;
 };
 
 struct Patient {
-  int patientNumber;
-  short age;
+  String patientNumber;
+  int age;
   String name;
-  GENDER gender;
+  char gender;
 };
 
 struct Symptom {

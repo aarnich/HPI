@@ -34,6 +34,8 @@ void modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db);
 struct guessArray getGuessImpressions(struct SymptomDB syDB,
                                       struct ImpressionDB impDB);
 
+struct Impression getImpressionFromID(struct ImpressionDB db, int ID);
+
 struct Patient getPatient();
 
 #endif
