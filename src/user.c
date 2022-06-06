@@ -114,11 +114,17 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us) {
 
   fprintf(fp, "Impressions are");
 
-  for (i = 0; i < ui.count - 1; i++) {
-    fprintf(fp, " %s,", ui.impName[i]);
+  if (ui.count == 0) {
+
+    fprintf(fp, "none! They are relatively healthy");
+  } else {
+
+    for (i = 0; i < ui.count - 1; i++) {
+      fprintf(fp, " %s,", ui.impName[i]);
+    }
+    if (ui.count > 1) {
+      fprintf(fp, " and");
+    }
+    fprintf(fp, " %s.\n", ui.impName[i]);
   }
-  if (ui.count > 1) {
-    fprintf(fp, " and");
-  }
-  fprintf(fp, " %s.\n", ui.impName[i]);
 }
