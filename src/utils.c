@@ -36,7 +36,7 @@ handleCh(ReferenceInput ref) {
 
 void
 handleStr(ReferenceInput ref, char *input) {
-  char *str;
+  String str;
   getStr(str);
 
   // locate str substring inside ref
@@ -58,6 +58,7 @@ inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
       break;
     case STRING:
       handleStr(ref, (char *)input);
+      break;
     default:
       printf("Error: invalid input type\n");
       break;
@@ -80,7 +81,7 @@ getStr(char *input) {
 }
 
 void
-affirmative(char *c, char danger, ReferenceInput ref) {
+affirmative(char *c, ReferenceInput ref) {
   int sure = 0;
   char answer;
   while (!sure) {

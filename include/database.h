@@ -11,6 +11,7 @@
 #define MAX_IMPRESSIONS 20
 #define MAX_SYMPTOMS 20
 #define TERMINATING_STRING "-1"
+#define TERMINATION_ID -1
 #define ID_LEN 2
 
 typedef enum { MALE, FEMALE } GENDER;
@@ -39,8 +40,8 @@ void initSymptomDB(struct SymptomDB *db);
 
 struct Impression {
   String name;
-  ID id;
-  ID correspondingSymptoms[21];
+  int id;
+  int correspondingSymptoms[21];
 };
 void initImpression(struct Impression *input);
 
