@@ -14,6 +14,8 @@ handleInt() {
   int i;
   while (scanf(" %d", &i) != 1) {
     printf("Error: argument %d is not an integer\n", i);
+    printf("Please enter a valid number: ");
+    emptyStdin();
   }
 
   return i;
@@ -25,10 +27,24 @@ handleCh(ReferenceInput ref) {
   scanf(" %c", &c);
   while (strchr(ref, toUpper(c)) == NULL) {
     printf("Error: argument %c is not a valid character\n", c);
+    printf("Please enter a valid character: ");
     scanf(" %c", &c);
   }
 
   return c;
+}
+
+void
+handleStr(ReferenceInput ref, char *input) {
+  char *str;
+  getStr(str);
+
+  // locate str substring inside ref
+  while (strstr(ref, str) == NULL) {
+    printf("Not in dataset, try again\n");
+    getStr(str);
+  }
+  strcpy(input, str);
 }
 
 void
@@ -40,6 +56,8 @@ inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
     case CHAR:
       *(char *)input = handleCh(ref);
       break;
+    case STRING:
+      handleStr(ref, (char *)input);
     default:
       printf("Error: invalid input type\n");
       break;
@@ -58,7 +76,7 @@ fileExists(const char *filename) {
 
 void
 getStr(char *input) {
-  scanf("%49[0-9a-zA-Z ]", input);
+  scanf(" %49[0-9a-zA-Z ]", input);
 }
 
 void
@@ -80,9 +98,14 @@ affirmative(char *c, char danger, ReferenceInput ref) {
 }
 
 void
-empty_stdin(void) {
+emptyStdin(void) {
   int c = getchar();
 
   while (c != '\n' && c != EOF)
     c = getchar();
+}
+
+void
+trim(char *input) {
+  input[strcspn(input, "\n")] = 0;
 }

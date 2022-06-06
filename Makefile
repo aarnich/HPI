@@ -16,7 +16,7 @@ RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
 DCOMPILE_FLAGS = -D DEBUG
 # Add additional include paths
-INCLUDES = -I $(SRC_PATH) $(SRC_PATH)/include $(SRC_PATH)/src $(SRC_PATH)/bin
+INCLUDES = -I $(SRC_PATH) $(SRC_PATH)/include $(SRC_PATH)/src
 #
 #
 # General linker settings
@@ -174,8 +174,8 @@ endif
 .PHONY: dirs
 dirs:
 	@echo "Creating directories $(dir $(OBJECTS))"
-	@mkdir -p "$(dir $(OBJECTS))"
-	@mkdir -p "$(BIN_PATH)"
+	@mkdir -p $(dir $(OBJECTS))
+	@mkdir -p $(BIN_PATH)
 
 # Installs to the set path
 .PHONY: install

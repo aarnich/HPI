@@ -258,6 +258,23 @@ printSymptoms(struct SymptomDB db, int *symptomArr) {
 }
 
 void
+printSymptomsAtIndex(struct SymptomDB db, int index) {
+  printf("\t\t%s\n", db.database[index].name);
+}
+
+void
+displayImpressionSymptoms(struct Impression imp, struct SymptomDB db) {
+  printf("The symptoms of %s are: ", imp.name);
+  int i;
+  for (i = 0; i < MAX_SYMPTOMS; i++) {
+    if (strcmp(imp.correspondingSymptoms[i], TERMINATING_STRING) == 0) {
+      break;
+    }
+    printSymptomsAtIndex(db, atoi(imp.correspondingSymptoms[i]));
+  }
+}
+
+void
 createNewSymptomDB(struct SymptomDB *db, int num) {
   initSymptomDB(db);
 
@@ -323,6 +340,39 @@ isFound(int *arr, int num, int target) {
 }
 
 void
+modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db) {
+  int *symptomArr;
+
+  printf("You can modify the symptoms of %s.\n", imp->name);
+  printf("Below is the list of symptoms:n");
+  printSymptoms(db, symptomArr);
+
+  int i, j;
+  int symptomCount = 0;
+  int symptomID = 0;
+
+  String symptomTemp;
+
+  printf("How many symptoms are present in the %s case? ", imp->name);
+  inputHandler(INT, "", &symptomCount);
+  printf("\nEnter the corresponding number of each symptom\n");
+  for (j = 0; j < symptomCount; j++) {
+    printf("Symptom # %d: ", j + 1);
+    inputHandler(INT, "", &symptomID);
+    while (!isFound(symptomArr, db.count, symptomID)) {
+      printf("Not in dataset, try again.\n");
+      printf("Symptom # %d: ", j + 1);
+      inputHandler(INT, "", &symptomID);
+    }
+    toString(symptomID, symptomTemp);
+    strcpy(imp->correspondingSymptoms[j], symptomTemp);
+  }
+  strcpy(imp->correspondingSymptoms[j], TERMINATING_STRING);
+  printf("Here are the NEW SYMPTOMS of %s: \n", imp->name);
+  displayImpressionSymptoms(*imp, db);
+}
+
+void
 createNewImpressionDB(struct ImpressionDB *db, int num,
                       struct SymptomDB symptoms) {
   int i, j, symptomCount, symptomID;
@@ -371,5 +421,3 @@ createNewImpressionDB(struct ImpressionDB *db, int num,
     db->count++;
   }
 }
-
-// TODO: Finish doctor function interfaces
