@@ -1,43 +1,25 @@
 #include "include/database.h"
+#include "include/dbstructs.h"
 #include "include/interface.h"
 #include "include/utils.h"
 
 int
 main() {
-  // TODO: fix all of these comments
+  struct ImpressionDB iDB;
+  struct SymptomDB sDB;
 
-  // char opt;
-  // ReferenceInput ref;
-  // int sure = 0, fileExists = 0;
+  // createNewSymptomDB(&sDB, 3);
+  // createNewImpressionDB(&iDB, 3, sDB);
 
-  // // check if impressions.txt exists
-  // if (file_exists("impressions.txt")) {
-  //   fileExists = 1;
-  //   // initialize ImpressiosDB
-  // }
+  // writeSymptoms(&sDB, "Symptoms.txt");
 
-  // do {
+  readSymptomDB(&sDB, "Symptoms.txt");
+  // createNewImpressionDB(&iDB, 3, sDB);
+  // writeImpressions(&iDB, "Impressions.txt");
+  readImpressionDB(&iDB, "Impressions.txt");
 
-  //   strcpy(ref, "DPE");
-  //   interface(MAIN);
-  //   inputHandler(CHAR, ref, (int *)&opt);
-  //   printf("\nTHIS IS MY INPUT: %c", opt);
-  //   switch (opt) {
-  //     case 'D':
-  //       interface(DOCTOR);
-  //       strcpy(ref, "CUDME");
-  //       inputHandler(CHAR, ref, (int *)&opt);
-  //       if (opt == 'C') {
-  //         affirmative(&opt, 'C', ref);
-  //       }
-  //     case 'P':
-  //       interface(PATIENT);
-  //       break;
-  //     case 'E':
-  //       printf("\nSafe Travels Friend!...");
-  //       break;
-  //   }
-  // } while (opt != 'E');
+  struct guessArray ga = getGuessImpressions(sDB, iDB);
+  // print all impressions inside ga
 
   return 0;
 }

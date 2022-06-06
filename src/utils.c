@@ -12,10 +12,12 @@ toUpper(char c) {
 int
 handleInt() {
   int i;
+  int ch = 0;
   while (scanf(" %d", &i) != 1) {
     printf("Error: argument %d is not an integer\n", i);
     printf("Please enter a valid number: ");
-    emptyStdin();
+    while ((ch = getchar()) != '\n' && ch != EOF)
+      ;
   }
 
   return i;
@@ -77,7 +79,10 @@ fileExists(const char *filename) {
 
 void
 getStr(char *input) {
-  scanf(" %49[0-9a-zA-Z ]", input);
+  char temp[MAX_STRING_LEN + 1];
+  fgets(temp, MAX_STRING_LEN + 1, stdin);
+  trim(temp);
+  strcpy(input, temp);
 }
 
 void
@@ -99,14 +104,21 @@ affirmative(char *c, ReferenceInput ref) {
 }
 
 void
-emptyStdin(void) {
-  int c = getchar();
-
-  while (c != '\n' && c != EOF)
-    c = getchar();
-}
-
-void
 trim(char *input) {
   input[strcspn(input, "\n")] = 0;
+}
+
+// check if integer is inside array
+int
+isFound(int *arr, int num, int target) {
+  int retval, i;
+
+  retval = 0;
+  for (i = 0; i < num; i++) {
+    if (arr[i] == target) {
+      retval = 1;
+    }
+  }
+
+  return retval;
 }

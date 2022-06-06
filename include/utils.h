@@ -9,6 +9,7 @@
 
 #define pass printf("PASS\n")
 #define MAX_VALID_INPUT_LEN 12
+
 typedef enum { INT, DOUBLE, STRING, CHAR } TYPE;
 
 // inputHandler is a wrapper function for lower ordered inputhandlers
@@ -31,10 +32,10 @@ void affirmative(char *c, ReferenceInput ref);
 
 int fileExists(const char *filename);
 
-void emptyStdin(void);
-
 void getStr(char *input);
 
 void trim(char *input);
+
+int isFound(int *arr, int num, int target);
 
 #endif

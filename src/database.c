@@ -6,16 +6,11 @@
 void
 initImpression(struct Impression *input) {
 
-  int idIndex;
-
-  idIndex = 0;
   struct Impression prototype = {
       .id = TERMINATION_ID,
       .name = "NIL",
-  };
-
-  for (; idIndex <= MAX_SYMPTOMS; idIndex++)
-    prototype.correspondingSymptoms[idIndex] = TERMINATION_ID;
+      .sympCount = 0,
+      .correspondingSymptoms = {[0 ... MAX_SYMPTOMS] = -1}};
 
   *input = prototype;
 }
@@ -32,7 +27,7 @@ initImpressionDB(struct ImpressionDB *db) {
 
 void
 initSymptom(struct Symptom *input) {
-  struct Symptom prototype = {.id = "-1", .name = "NIL", .question = "NIL"};
+  struct Symptom prototype = {.id = -1, .name = "NIL", .question = "NIL"};
   *input = prototype;
 }
 
@@ -67,20 +62,52 @@ isNumerical(char *input) {
   return 1;
 }
 
-// convert each space separated string to a symptom id
 void
+nullifyString(char *input) {
+  int i, len;
+  i = 0;
+
+  len = strlen(input);
+  for (; i < len; i++) {
+    input[i] = '\0';
+  }
+}
+
+// convert each space separated string to a symptom id
+
+int
+countSymptoms(int *symptoms) {
+  int i, count;
+  i = 0;
+  count = 0;
+  while (symptoms[i] != TERMINATION_ID) {
+    count++;
+    i++;
+  }
+  return count;
+}
+int
 readSymptomsID(int *dest, char *src) {
   int i, j, k;
+  char token[3];
   j = k = i = 0;
   int inputlen = strlen(src);
-  for (; i < inputlen; i++) {
+  for (; i <= inputlen; i++) {
     // copy space separated substring input to ID at index
-    if (dest[i] != ' ') {
-      dest[j] = src[i] - '0';
+    if (isDigit(src[i])) {
+      token[j] = src[i];
       j++;
+    } else {
+      token[j] = '\0';
+      dest[k] = atoi(token);
+      nullifyString(token);
+      j = 0;
+      k++;
     }
   }
-  dest[k] = TERMINATION_ID;
+
+  dest[k - 1] = TERMINATION_ID;
+  return k - 1;
 }
 
 void
@@ -102,10 +129,11 @@ readImpression(FILE *file, struct Impression *output) {
   strcpy(prototype.name, name);
 
   // get the string of corresponding symptoms
-  char symptoms[100];
-  fgets(symptoms, 100, file);
+  String symptoms;
+  fgets(symptoms, MAX_STRING_LEN, file);
   trim(symptoms);
-  readSymptomsID(prototype.correspondingSymptoms, symptoms);
+  prototype.sympCount =
+      readSymptomsID(prototype.correspondingSymptoms, symptoms);
 
   *output = prototype;
 }
@@ -119,7 +147,7 @@ readSymptom(FILE *file, struct Symptom *output) {
   ID id;
   fgets(id, 3, file);
   trim(id);
-  strcpy(prototype.id, id);
+  prototype.id = atoi(id);
 
   String name;
   fgets(name, MAX_STRING_LEN, file);
@@ -161,7 +189,7 @@ readImpressionDB(struct ImpressionDB *db, const char *fileName) {
 
   // read the rest of the file
   int i;
-  for (i = 0; i < db->count - 1; i++) {
+  for (i = 0; i < db->count; i++) {
     readImpression(file, &db->database[i]);
   }
   fclose(file);
@@ -174,7 +202,7 @@ writeSymptoms(struct SymptomDB *db, const char *fileName) {
 
   int i;
   for (i = 0; i < db->count; i++) {
-    fprintf(file, "\n%s", db->database[i].id);
+    fprintf(file, "\n%d", db->database[i].id);
     fprintf(file, "\n%s", db->database[i].name);
     fprintf(file, "\n%s", db->database[i].question);
   }
@@ -196,9 +224,11 @@ writeImpressions(struct ImpressionDB *db, const char *fileName) {
   fprintf(file, "%d", db->count);
 
   int i, j;
+
   for (i = 0; i < db->count; i++) {
     fprintf(file, "\n%d", db->database[i].id);
     fprintf(file, "\n%s\n", db->database[i].name);
+    j = 0;
     while (db->database[i].correspondingSymptoms[j] != TERMINATION_ID) {
       fprintf(file, "%d ", db->database[i].correspondingSymptoms[j]);
       j++;
@@ -213,43 +243,32 @@ toString(int input, char *output) {
   sprintf(output, "%d", input);
 }
 
-// check if valid string
-int
-isValidString(char *input) {
-  int retval;
-
-  retval = 1;
-  if (input[0] == '\0')
-    retval = 0;
-  else if (input[0] == '\n')
-    retval = 0;
-
-  return retval;
-}
-
 void
 getSymptoms(struct SymptomDB db, int *symptomArr) {
 
   int i;
   for (i = 0; i < db.count; i++) {
-    printf("%s. %s\n", db.database[i].id, db.database[i].name);
-    symptomArr[i] = atoi(db.database[i].id);
+    printf("%d. %s\n", db.database[i].id, db.database[i].name);
+    symptomArr[i] = db.database[i].id;
   }
 }
 
-void
-printSymptomsAtIndex(struct SymptomDB db, int index) {
-  printf("\t\t%s\n", db.database[index].name);
+struct Symptom
+getSymptomFromID(struct SymptomDB db, int ID) {
+  return db.database[ID - 1];
 }
 
 void
 displayImpressionSymptoms(struct Impression imp, struct SymptomDB db) {
   printf("The symptoms of %s are: ", imp.name);
   int i;
+  struct Symptom symp;
+  initSymptom(&symp);
   for (i = 0;
        (i < MAX_SYMPTOMS) && (imp.correspondingSymptoms[i] != TERMINATION_ID);
        i++) {
-    printSymptomsAtIndex(db, imp.correspondingSymptoms[i]);
+    symp = getSymptomFromID(db, imp.correspondingSymptoms[i]);
+    printf("\t%s, ", symp.name);
   }
 }
 
@@ -268,66 +287,33 @@ createNewSymptomDB(struct SymptomDB *db, int num) {
     idNum = i + 1;
     printf("\n#############################");
     printf("\nSymptom Number: %d\n", idNum);
-    toString(idNum, symptom.id);
+    symptom.id = idNum;
 
-    // check if valid string input
-
-    printf("\nWhat is the symptom? ");
+    printf("\nWhat is the symptom? \n");
     getStr(temp);
-    printf("\ntemp : %s\n", temp);
-
-    emptyStdin();
-    while (!isValidString(temp)) {
-
-      printf("Invalid input. Please try again.\n");
-      printf("What is the symptom? ");
-      getStr(temp);
-    }
     strcpy(symptom.name, temp);
 
     printf("\nHow do you want to ask about the symptom?\n");
     getStr(temp);
-    while (!isValidString(temp)) {
-
-      printf("Invalid input. Please try again.");
-      printf("\nHow do you want to ask about the symptom?\n");
-
-      getStr(temp);
-    }
     strcpy(symptom.question, temp);
 
     db->database[i] = symptom;
     db->count++;
-
-    emptyStdin();
   }
-}
-
-// check if integer is inside array
-int
-isFound(int *arr, int num, int target) {
-  int retval, i;
-
-  retval = 0;
-  for (i = 0; i < num; i++) {
-    if (arr[i] == target) {
-      retval = 1;
-    }
-  }
-
-  return retval;
 }
 
 void
 modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db) {
   int symptomArr[MAX_SYMPTOMS + 1];
-
   printf("You can modify the symptoms of %s.\n", imp->name);
-  printf("Below is the list of symptoms:n");
+  printf("Below is the list of symptoms:\n");
   getSymptoms(db, symptomArr);
 
   int j, symptomCount, symptomID;
   ReferenceInput ref;
+
+  struct Symptom symp;
+  initSymptom(&symp);
 
   symptomCount = 0;
   symptomID = 0;
@@ -343,10 +329,14 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db) {
       inputHandler(INT, ref, &symptomID);
     }
     imp->correspondingSymptoms[j] = symptomID;
+    imp->sympCount++;
   }
   imp->correspondingSymptoms[j] = TERMINATION_ID;
   printf("Here are the NEW SYMPTOMS of %s: \n", imp->name);
-  displayImpressionSymptoms(*imp, db);
+  for (j = 0; j < symptomCount; j++) {
+    getSymptomFromID(db, imp->correspondingSymptoms[j]);
+    printf("\t%s, ", symp.name);
+  }
 }
 
 void
@@ -354,6 +344,7 @@ createNewImpressionDB(struct ImpressionDB *db, int num,
                       struct SymptomDB symptoms) {
 
   int i, j, symptomCount, symptomID, idTemp, symptomIDs[symptoms.count];
+  db->count = 0;
 
   String nameTemp;
   ReferenceInput ref;
@@ -367,11 +358,10 @@ createNewImpressionDB(struct ImpressionDB *db, int num,
 
     idTemp = i + 1;
     printf("Impression # %d\n", idTemp);
+    getchar();
 
-    printf("What is the illness? ");
+    printf("What is the illness? \n");
     getStr(nameTemp);
-    trim(nameTemp);
-    emptyStdin();
 
     printf("Below is a list of symptoms: \n");
     getSymptoms(symptoms, symptomIDs);
@@ -388,8 +378,12 @@ createNewImpressionDB(struct ImpressionDB *db, int num,
         inputHandler(INT, ref, &symptomID);
       }
       impression.correspondingSymptoms[j] = symptomID;
+      impression.sympCount++;
     }
+    printf("symptomID = %d\n", symptomID);
     impression.correspondingSymptoms[j] = TERMINATION_ID;
+    printf("impression.correspondingSymptoms[j] = %d\n",
+           impression.correspondingSymptoms[j]);
     impression.id = idTemp;
     strcpy(impression.name, nameTemp);
     db->database[i] = impression;
