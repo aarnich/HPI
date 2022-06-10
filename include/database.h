@@ -42,4 +42,16 @@ struct Impression getImpressionFromID(struct ImpressionDB db, int ID);
 void writeUserDetails(struct Patient p, struct userImps ui,
                       struct userSymps us);
 
+void displayImpressionSymptoms(struct Impression imp, struct SymptomDB db);
+
+void getAllImpressionIDs(struct ImpressionDB db, int *impressionIDs);
+
+struct Impression getImpressionFromID(struct ImpressionDB db, int ID);
+
+struct Impression getImpressionFromName(struct ImpressionDB db, char *name);
+
+void DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB);
+
+void PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB);
+
 #endif

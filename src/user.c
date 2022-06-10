@@ -1,4 +1,3 @@
-#include "../include/user.h"
 #include "../include/dbstructs.h"
 #include "../include/utils.h"
 #include "stdlib.h"
@@ -83,15 +82,37 @@ getPatientImpressions(struct SymptomDB sDB, struct ImpressionDB iDB,
 }
 
 void
+readPatientDetails(struct Patient p) {
+
+  FILE *fp;
+  char fileName[strlen(p.patientNumber) + 5];
+  sprintf(fileName, "%s.txt", p.patientNumber);
+
+  fp = fopen(fileName, "r");
+  if (fp == NULL) {
+    printf("File not found\n");
+    return;
+  }
+
+  char line[100];
+  printf("\n");
+  while (fgets(line, 100, fp) != NULL) {
+    printf("%s", line);
+  }
+}
+
+void
 writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us) {
   int i;
   FILE *fp;
   char fileName[strlen(p.patientNumber) + 5];
   sprintf(fileName, "%s.txt", p.patientNumber);
   fp = fopen(fileName, "w");
+  fprintf(fp, "History of Present Illness\n\n");
+
   fprintf(fp, "%s, patient # ", p.name);
   fprintf(fp, "%s, is a ", p.patientNumber);
-  fprintf(fp, "%d year old  ", p.age);
+  fprintf(fp, "%d year old ", p.age);
   switch (p.gender) {
     case 'M':
     case 'm':
@@ -104,27 +125,71 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us) {
     default:
       break;
   }
-  for (i = 0; i < us.count - 1; i++) {
-    fprintf(fp, " %s,", us.symName[i]);
+
+  if (us.count == 0)
+    fprintf(fp, "none! They are relatively healthy");
+  else {
+    for (i = 0; i < us.count - 1; i++) {
+      fprintf(fp, " %s", us.symName[i]);
+
+      if ((i - us.count - 1) >= 1)
+        fprintf(fp, ",");
+    }
+
+    if (us.count > 1)
+      fprintf(fp, " and");
+
+    fprintf(fp, " %s.\n", us.symName[i]);
   }
-  if (us.count > 1) {
-    fprintf(fp, " and");
-  }
-  fprintf(fp, " %s.\n", us.symName[i]);
 
   fprintf(fp, "Impressions are");
 
-  if (ui.count == 0) {
-
+  if (ui.count == 0)
     fprintf(fp, "none! They are relatively healthy");
-  } else {
-
+  else {
     for (i = 0; i < ui.count - 1; i++) {
-      fprintf(fp, " %s,", ui.impName[i]);
+      fprintf(fp, " %s", ui.impName[i]);
+
+      if ((i - ui.count - 1) >= 1)
+        fprintf(fp, ",");
     }
-    if (ui.count > 1) {
+
+    if (ui.count > 1)
       fprintf(fp, " and");
-    }
     fprintf(fp, " %s.\n", ui.impName[i]);
   }
+
+  fclose(fp);
+}
+
+void
+PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB) {
+  getchar(); // clear the trailing newline
+
+  // initialize all necessary structs
+  struct Patient p;
+  struct userImps ui;
+  struct userSymps us;
+  initPatient(&p);
+  us.count = 0;
+  ui.count = 0;
+
+  clear();
+
+  // get patient details
+  getPatient(&p);
+
+  // get patient impressions
+  getPatientImpressions(sDB, iDB, &ui, &us);
+
+  // write patient details to file
+  writeUserDetails(p, ui, us);
+
+  readPatientDetails(p);
+
+  printf("\n\nPatient details saved to %s.txt\n", p.patientNumber);
+
+  getchar();
+  sleepMs(500);
+  con();
 }

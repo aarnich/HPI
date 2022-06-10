@@ -1,5 +1,26 @@
 #include "../include/utils.h"
 
+void
+clear() {
+  printf("\e[1;1H\e[2J");
+}
+
+void
+sleepMs(int milliseconds) {
+  fflush(stdout);
+#ifdef WIN32 // if the current system is a windows system
+  Sleep(milliseconds);
+#elif _POSIX_C_SOURCE >=                                                       \
+    199309L // if the current system is posix compliant (linux/mac)
+  struct timespec ts;
+  ts.tv_sec = milliseconds / 1000;
+  ts.tv_nsec = (milliseconds % 1000) * 1000000;
+  nanosleep(&ts, NULL);
+#else       // if the current system is neither, use system directives
+  if (milliseconds >= 1000)
+    sleep(milliseconds / 1000);
+#endif
+}
 // char to upper function
 char
 toUpper(char c) {
@@ -7,6 +28,12 @@ toUpper(char c) {
     return c - 'a' + 'A';
   }
   return c;
+}
+
+void
+con() {
+  printf("\n\nPress [[ENTER]] to continue");
+  getchar();
 }
 
 int
@@ -70,11 +97,15 @@ inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
 int
 fileExists(const char *filename) {
   FILE *file;
+  int retval;
+
+  retval = 0;
   if ((file = fopen(filename, "r"))) {
     fclose(file);
-    return 1;
+    retval = 1;
   }
-  return 0;
+
+  return retval;
 }
 
 void
@@ -85,22 +116,22 @@ getStr(char *input) {
   strcpy(input, temp);
 }
 
-void
-affirmative(char *c, ReferenceInput ref) {
-  int sure = 0;
-  char answer;
-  while (!sure) {
-    printf(
-        "\nThis selection is potentially destructive, are you sure? (Y/N): ");
-    ReferenceInput answerRef = "YN";
-    inputHandler(CHAR, answerRef, (int *)&answer);
-    if (answer == 'Y')
-      sure = 1;
-    else {
-      printf("\nPlease select another input:");
-      inputHandler(CHAR, ref, (int *)c);
-    }
+int
+affirmative(const char *question) {
+  int retval;
+
+  retval = 0;
+  String ans = " ";
+  printf("%s\ntype YES (capitalized) if you're sure:\n", question);
+
+  getchar();
+  getStr(ans);
+
+  if (strcmp(ans, "YES") == 0) {
+    retval = 1;
   }
+
+  return retval;
 }
 
 void

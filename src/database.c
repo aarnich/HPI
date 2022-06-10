@@ -263,6 +263,27 @@ getImpressionFromID(struct ImpressionDB db, int ID) {
   return db.database[ID - 1];
 }
 
+struct Impression
+getImpressionFromName(struct ImpressionDB db, char *name) {
+  struct Impression defVal;
+  initImpression(&defVal);
+  int i;
+  int index;
+
+  index = -1;
+  for (i = 0; i < db.count; i++) {
+    if (strcmp(db.database[i].name, name) == 0) {
+      index = i;
+    }
+  }
+
+  if (index != -1) {
+    return db.database[index];
+  }
+
+  return defVal;
+}
+
 void
 displayImpressionSymptoms(struct Impression imp, struct SymptomDB db) {
   printf("The symptoms of %s are: ", imp.name);
@@ -270,10 +291,11 @@ displayImpressionSymptoms(struct Impression imp, struct SymptomDB db) {
   struct Symptom symp;
   initSymptom(&symp);
   for (i = 0;
-       (i < MAX_SYMPTOMS) && (imp.correspondingSymptoms[i] != TERMINATION_ID);
+       (i < db.count) && (imp.correspondingSymptoms[i] != TERMINATION_ID);
        i++) {
+
     symp = getSymptomFromID(db, imp.correspondingSymptoms[i]);
-    printf("\t%s, ", symp.name);
+    printf("\n\t%s", symp.name);
   }
 }
 
@@ -286,6 +308,8 @@ createNewSymptomDB(struct SymptomDB *db, int num) {
 
   idNum = 0;
   struct Symptom symptom;
+
+  getchar();
   for (i = 0; i < num; i++) {
     initSymptom(&symptom);
 
@@ -294,7 +318,7 @@ createNewSymptomDB(struct SymptomDB *db, int num) {
     printf("\nSymptom Number: %d\n", idNum);
     symptom.id = idNum;
 
-    printf("\nWhat is the symptom? \n");
+    printf("\nWhat is the symptom?\n");
     getStr(temp);
     strcpy(symptom.name, temp);
 
@@ -310,7 +334,7 @@ createNewSymptomDB(struct SymptomDB *db, int num) {
 void
 modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db) {
   int symptomArr[MAX_SYMPTOMS + 1];
-  printf("You can modify the symptoms of %s.\n", imp->name);
+  printf("\nYou can modify the symptoms of %s.\n", imp->name);
   printf("Below is the list of symptoms:\n");
   getSymptoms(db, symptomArr);
 
@@ -339,8 +363,16 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db) {
   imp->correspondingSymptoms[j] = TERMINATION_ID;
   printf("Here are the NEW SYMPTOMS of %s: \n", imp->name);
   for (j = 0; j < symptomCount; j++) {
-    getSymptomFromID(db, imp->correspondingSymptoms[j]);
+    symp = getSymptomFromID(db, imp->correspondingSymptoms[j]);
     printf("\t%s, ", symp.name);
+  }
+}
+
+void
+getAllImpressionIDs(struct ImpressionDB db, int *impressionIDs) {
+  int i;
+  for (i = 0; i < db.count; i++) {
+    impressionIDs[i] = db.database[i].id;
   }
 }
 
@@ -365,7 +397,7 @@ createNewImpressionDB(struct ImpressionDB *db, int num,
     printf("Impression # %d\n", idTemp);
     getchar();
 
-    printf("What is the illness? \n");
+    printf("What is the illness?\n");
     getStr(nameTemp);
 
     printf("Below is a list of symptoms: \n");

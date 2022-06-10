@@ -6,6 +6,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 #define pass printf("PASS\n")
 #define MAX_VALID_INPUT_LEN 12
@@ -23,12 +25,20 @@ void inputHandler(TYPE inputType, ReferenceInput ref, int *input);
 // Returns: the integer input by the user
 int handleInt();
 
+void sleepMs(int milliseconds);
+
+void con();
+
+char toUpper(char c);
+
 char handleCh(ReferenceInput ref);
 
 void drProcessor(char opt);
 
 // this function makes sure user input is deliberate
-void affirmative(char *c, ReferenceInput ref);
+int affirmative(const char *question);
+
+void clear();
 
 int fileExists(const char *filename);
 

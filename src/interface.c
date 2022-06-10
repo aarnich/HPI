@@ -12,9 +12,7 @@ v_MainMenu() {
 
 void
 v_DrMenu() {
-  printf("MENU #2 Doctor\n\n");
-
-  printf("C for Create a new list of symptoms and impressions\n");
+  printf("\nC for Create a new list of symptoms and impressions\n");
   printf("U for Use the existing list of symptoms and impressions\n");
   printf("D for Display symptoms\n");
   printf("M for Modify symptoms\n");
