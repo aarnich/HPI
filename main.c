@@ -5,21 +5,42 @@
 
 int
 main() {
+  // initialize necessary database structures
+  ReferenceInput ref = " ";
+  char exitFlag = 'E';
+  char opt = ' ';
   struct ImpressionDB iDB;
   struct SymptomDB sDB;
 
-  // createNewSymptomDB(&sDB, 3);
-  // createNewImpressionDB(&iDB, 3, sDB);
+  initSymptomDB(&sDB);
+  initImpressionDB(&iDB);
 
-  // writeSymptoms(&sDB, "Symptoms.txt");
+  do {
+    clear();
+    // display menu
+    interface(MAIN);
 
-  readSymptomDB(&sDB, "Symptoms.txt");
-  // createNewImpressionDB(&iDB, 3, sDB);
-  // writeImpressions(&iDB, "Impressions.txt");
-  readImpressionDB(&iDB, "Impressions.txt");
+    // get user input of type char
+    strcpy(ref, "DPE");
+    inputHandler(CHAR, ref, (int *)&opt);
 
-  struct guessArray ga = getGuessImpressions(sDB, iDB);
-  // print all impressions inside ga
+    switch (toUpper(opt)) {
+      case 'D':
+        DoctorProcess(&sDB, &iDB);
+        break;
+      case 'P':
+        PatientProcess(sDB, iDB);
+        break;
+      case 'E':
+        printf("Exiting...\n");
+        break;
+    }
+
+  } while (toUpper(opt) != exitFlag);
+
+  // struct userSymps us = {.count = 0};
+  // struct userImps ui = {.count = 0};
+  // struct Patient p;
 
   return 0;
 }
