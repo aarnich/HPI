@@ -2,8 +2,16 @@
 #include "../include/interface.h"
 #include "../include/utils.h"
 
+/**
+ * @Description : A function wrapper that encapsulates the entirety of the
+ * doctor's tasks.
+ *
+ * @Param sDB - The symptom database.
+ * @Param iDB - The impression database.
+ */
 void
-DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB) {
+DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
+{
 
   printf("\nMENU #2 Doctor\n\n");
   char opt = ' ', exitFlag = 'E';
@@ -46,14 +54,16 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB) {
         if (fileExists("Symptoms.txt")) {
           readSymptomDB(sDB, "Symptoms.txt");
           printf("Symptoms successfully loaded.\n");
-        } else {
+        }
+        else {
           printf("\nNo symptoms found.\n");
         }
 
         if (fileExists("Impressions.txt")) {
           readImpressionDB(iDB, "Impressions.txt");
           printf("Impressions successfully loaded.\n");
-        } else {
+        }
+        else {
           printf("\nNo impressions found.\n");
         }
         getchar();
@@ -67,7 +77,8 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB) {
         imp = getImpressionFromName(*iDB, impression);
         if (imp.id != TERMINATION_ID) {
           displayImpressionSymptoms(imp, *sDB);
-        } else {
+        }
+        else {
           printf("\nImpression not found.\n");
         }
         con();
@@ -79,8 +90,11 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB) {
         imp = getImpressionFromName(*iDB, impression);
         if (imp.id == TERMINATION_ID) {
           printf("Impressin not found");
-        } else {
+        }
+        else {
           impressionID = imp.id;
+          printf("\nYou can modify the symptoms of %s.\n", imp.name);
+          printf("Below is the list of symptoms:\n");
           modifyImpressionSymptoms(&iDB->database[impressionID - 1], *sDB);
         }
         con();

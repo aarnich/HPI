@@ -4,7 +4,8 @@
 #include "include/utils.h"
 
 int
-main() {
+main()
+{
   // initialize necessary database structures
   ReferenceInput ref = " ";
   char exitFlag = 'E';
@@ -37,10 +38,6 @@ main() {
     }
 
   } while (toUpper(opt) != exitFlag);
-
-  // struct userSymps us = {.count = 0};
-  // struct userImps ui = {.count = 0};
-  // struct Patient p;
 
   return 0;
 }

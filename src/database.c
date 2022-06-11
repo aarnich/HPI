@@ -1,10 +1,15 @@
 #include "../include/database.h"
 #include "../include/utils.h"
 #include <stdio.h>
-// TODO: Add error handling
 
+/**
+ * @Description : Initializes an impression struct given its address
+ *
+ * @Param input impression struct address
+ */
 void
-initImpression(struct Impression *input) {
+initImpression(struct Impression *input)
+{
 
   struct Impression prototype = {
       .id = TERMINATION_ID,
@@ -15,8 +20,14 @@ initImpression(struct Impression *input) {
   *input = prototype;
 }
 
+/**
+ * @Description Initializes the impression database
+ *
+ * @Param db database struct address
+ */
 void
-initImpressionDB(struct ImpressionDB *db) {
+initImpressionDB(struct ImpressionDB *db)
+{
 
   int i;
   for (i = 0; i < MAX_IMPRESSIONS; i++)
@@ -26,13 +37,25 @@ initImpressionDB(struct ImpressionDB *db) {
 }
 
 void
-initSymptom(struct Symptom *input) {
+/**
+ * @Description : Initializes a symptom with default values given its address
+ *
+ * @Param input symptom struct address
+ */
+initSymptom(struct Symptom *input)
+{
   struct Symptom prototype = {.id = -1, .name = "NIL", .question = "NIL"};
   *input = prototype;
 }
 
+/**
+ * @Description : Initializes the symptom database
+ *
+ * @Param db - database struct address
+ */
 void
-initSymptomDB(struct SymptomDB *db) {
+initSymptomDB(struct SymptomDB *db)
+{
 
   int i;
   for (i = 0; i < MAX_SYMPTOMS; i++)
@@ -42,41 +65,16 @@ initSymptomDB(struct SymptomDB *db) {
   db->count = 0;
 }
 
+/**
+ * @Description : Counts the number of symptoms in the database
+ *
+ * @Param symptoms - the array of symptoms
+ *
+ * @Returns the number of symptoms in the given array
+ */
 int
-isDigit(char c) {
-  return c >= '0' && c <= '9';
-}
-
-int
-isNumerical(char *input) {
-
-  int i;
-  i = 0;
-
-  while (input[i] != '\0') {
-    if (!isDigit(input[i])) {
-      return 0;
-    }
-    i++;
-  }
-  return 1;
-}
-
-void
-nullifyString(char *input) {
-  int i, len;
-  i = 0;
-
-  len = strlen(input);
-  for (; i < len; i++) {
-    input[i] = '\0';
-  }
-}
-
-// convert each space separated string to a symptom id
-
-int
-countSymptoms(int *symptoms) {
+countSymptoms(int *symptoms)
+{
   int i, count;
   i = 0;
   count = 0;
@@ -86,8 +84,19 @@ countSymptoms(int *symptoms) {
   }
   return count;
 }
+
+/**
+ * @Description :Reads a space separated symptom string and converts it to an
+ * array of symptom ids
+ *
+ * @Param dest - the array of symptom ids
+ * @Param src - the string to be read
+ *
+ * @Returns the number of symptom ids in the array
+ */
 int
-readSymptomsID(int *dest, char *src) {
+readSymptomsID(int *dest, char *src)
+{
   int i, j, k;
   char token[3];
   j = k = i = 0;
@@ -97,7 +106,8 @@ readSymptomsID(int *dest, char *src) {
     if (isDigit(src[i])) {
       token[j] = src[i];
       j++;
-    } else {
+    }
+    else {
       token[j] = '\0';
       dest[k] = atoi(token);
       nullifyString(token);
@@ -110,8 +120,16 @@ readSymptomsID(int *dest, char *src) {
   return k - 1;
 }
 
+/**
+ * @Description : Reads an impression from an opened file and stores it to the
+ * given Impression address
+ *
+ * @Param file - the file to be read
+ * @Param output - the address of the Impression where the data will be stored
+ */
 void
-readImpression(FILE *file, struct Impression *output) {
+readImpression(FILE *file, struct Impression *output)
+{
 
   struct Impression prototype;
   initImpression(&prototype);
@@ -138,8 +156,16 @@ readImpression(FILE *file, struct Impression *output) {
   *output = prototype;
 }
 
+/**
+ * @Description : Reads a symptom from an opened file and stores it to the given
+ * symptom address
+ *
+ * @Param file - the file to be read
+ * @Param output - the address of the symptom where the data will be stored
+ */
 void
-readSymptom(FILE *file, struct Symptom *output) {
+readSymptom(FILE *file, struct Symptom *output)
+{
 
   struct Symptom prototype;
   initSymptom(&prototype);
@@ -162,8 +188,16 @@ readSymptom(FILE *file, struct Symptom *output) {
   *output = prototype;
 }
 
+/**
+ * @Description : Reads all symptoms from a given filename and stores all
+ * symptoms to the given symptom database address
+ *
+ * @Param db - the symptom database address
+ * @Param fileName - the filename to be read
+ */
 void
-readSymptomDB(struct SymptomDB *db, const char *fileName) {
+readSymptomDB(struct SymptomDB *db, const char *fileName)
+{
 
   FILE *file = fopen(fileName, "r");
   char count[ID_LEN + 1];
@@ -179,8 +213,16 @@ readSymptomDB(struct SymptomDB *db, const char *fileName) {
   fclose(file);
 }
 
+/**
+ * @Description : Reads all impressions from a given filename and stores all
+ * impressions to the given impression database address
+ *
+ * @Param db - the impression database address
+ * @Param fileName - the filename to be read
+ */
 void
-readImpressionDB(struct ImpressionDB *db, const char *fileName) {
+readImpressionDB(struct ImpressionDB *db, const char *fileName)
+{
   // open Impressions.txt file
   FILE *file = fopen(fileName, "r");
   char line[ID_LEN + 1];
@@ -195,8 +237,15 @@ readImpressionDB(struct ImpressionDB *db, const char *fileName) {
   fclose(file);
 }
 
+/**
+ * @Description Writes all symptoms in symptom database to a given file
+ *
+ * @Param db - the symptom database address
+ * @Param fileName - the name of the file to be written to
+ */
 void
-writeSymptoms(struct SymptomDB *db, const char *fileName) {
+writeSymptoms(struct SymptomDB *db, const char *fileName)
+{
   FILE *file = fopen(fileName, "w");
   fprintf(file, "%d", db->count);
 
@@ -209,8 +258,14 @@ writeSymptoms(struct SymptomDB *db, const char *fileName) {
   fclose(file);
 }
 
+/**
+ * @Description : Prints an impression
+ *
+ * @Param imp - the impression to be printed
+ */
 void
-printImpression(struct Impression imp) {
+printImpression(struct Impression imp)
+{
   printf("\n%d. %s\n", imp.id, imp.name);
   int i;
   for (i = 0; i <= MAX_SYMPTOMS; i++) {
@@ -218,8 +273,15 @@ printImpression(struct Impression imp) {
   }
 }
 
+/**
+ * @Description : Saves all impressions to a given file
+ *
+ * @Param db - the impression database address
+ * @Param fileName - the name of the file to be written to
+ */
 void
-writeImpressions(struct ImpressionDB *db, const char *fileName) {
+writeImpressions(struct ImpressionDB *db, const char *fileName)
+{
   FILE *file = fopen(fileName, "w");
   fprintf(file, "%d", db->count);
 
@@ -237,14 +299,15 @@ writeImpressions(struct ImpressionDB *db, const char *fileName) {
   fclose(file);
 }
 
-// convert integer  to string
+/**
+ * @Description : Stores all symptom IDs to a given array
+ *
+ * @Param db - the symptom database
+ * @Param symptomArr - the array which stores the symptom IDs
+ */
 void
-toString(int input, char *output) {
-  sprintf(output, "%d", input);
-}
-
-void
-getSymptoms(struct SymptomDB db, int *symptomArr) {
+getSymptoms(struct SymptomDB db, int *symptomArr)
+{
 
   int i;
   for (i = 0; i < db.count; i++) {
@@ -253,18 +316,45 @@ getSymptoms(struct SymptomDB db, int *symptomArr) {
   }
 }
 
+/**
+ * @Description : Gets a symptom from its ID
+ *
+ * @Param db - the symptom database
+ * @Param ID - the ID of the symptom
+ *
+ * @Returns - the symptom with the given ID
+ */
 struct Symptom
-getSymptomFromID(struct SymptomDB db, int ID) {
+getSymptomFromID(struct SymptomDB db, int ID)
+{
   return db.database[ID - 1];
 }
 
+/**
+ * @Description : Gets an impression from its ID
+ *
+ * @Param db - the impression database
+ * @Param ID - the ID of the impression
+ *
+ * @Returns - the impression with the given ID
+ */
 struct Impression
-getImpressionFromID(struct ImpressionDB db, int ID) {
+getImpressionFromID(struct ImpressionDB db, int ID)
+{
   return db.database[ID - 1];
 }
 
+/**
+ * @Description : Gets the impression from its name
+ *
+ * @Param db - the symptom database
+ * @Param name - the name of the impression
+ *
+ * @Returns - the Impression with the given name
+ */
 struct Impression
-getImpressionFromName(struct ImpressionDB db, char *name) {
+getImpressionFromName(struct ImpressionDB db, char *name)
+{
   struct Impression defVal;
   initImpression(&defVal);
   int i;
@@ -284,8 +374,15 @@ getImpressionFromName(struct ImpressionDB db, char *name) {
   return defVal;
 }
 
+/**
+ * @Description : Prints all the symptoms of a given impression
+ *
+ * @Param imp - the impression to be printed
+ * @Param db - the symptom database
+ */
 void
-displayImpressionSymptoms(struct Impression imp, struct SymptomDB db) {
+displayImpressionSymptoms(struct Impression imp, struct SymptomDB db)
+{
   printf("The symptoms of %s are: ", imp.name);
   int i;
   struct Symptom symp;
@@ -299,8 +396,16 @@ displayImpressionSymptoms(struct Impression imp, struct SymptomDB db) {
   }
 }
 
+/**
+ * @Description : Creates a new symptom database with a given size and stores
+ * all values to the given database address
+ *
+ * @Param db - the symptom database address
+ * @Param num - the size of the symptom database
+ */
 void
-createNewSymptomDB(struct SymptomDB *db, int num) {
+createNewSymptomDB(struct SymptomDB *db, int num)
+{
   initSymptomDB(db);
 
   int i, idNum;
@@ -331,11 +436,16 @@ createNewSymptomDB(struct SymptomDB *db, int num) {
   }
 }
 
+/**
+ * @Description : Modifies an existing impression within the database
+ *
+ * @Param imp - the impression to be modified
+ * @Param db - the impression database
+ */
 void
-modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db) {
+modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
+{
   int symptomArr[MAX_SYMPTOMS + 1];
-  printf("\nYou can modify the symptoms of %s.\n", imp->name);
-  printf("Below is the list of symptoms:\n");
   getSymptoms(db, symptomArr);
 
   int j, symptomCount, symptomID;
@@ -368,17 +478,33 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db) {
   }
 }
 
+/**
+ * @Description : Gets all impression IDs from the given database
+ *
+ * @Param db - the impression database
+ * @Param impressionIDs - the array which stores the impression IDs
+ */
 void
-getAllImpressionIDs(struct ImpressionDB db, int *impressionIDs) {
+getAllImpressionIDs(struct ImpressionDB db, int *impressionIDs)
+{
   int i;
-  for (i = 0; i < db.count; i++) {
+  for (i = 0; i < db.count; i++)
     impressionIDs[i] = db.database[i].id;
-  }
 }
 
+/**
+ * @Description : Creates a new impression database with a given size and stores
+ * all values to the given database address
+ *
+ * @Param db - the impression database address
+ * @Param num - the size of the impression database
+ * @Param symptoms - the symptom database
+ */
 void
-createNewImpressionDB(struct ImpressionDB *db, int num,
-                      struct SymptomDB symptoms) {
+createNewImpressionDB(struct ImpressionDB *db,
+                      int num,
+                      struct SymptomDB symptoms)
+{
 
   int i, j, symptomCount, symptomID, idTemp, symptomIDs[symptoms.count];
   db->count = 0;
@@ -394,7 +520,7 @@ createNewImpressionDB(struct ImpressionDB *db, int num,
     initImpression(&impression);
 
     idTemp = i + 1;
-    printf("Impression # %d\n", idTemp);
+    printf("\n\nImpression # %d\n", idTemp);
     getchar();
 
     printf("What is the illness?\n");
@@ -417,10 +543,7 @@ createNewImpressionDB(struct ImpressionDB *db, int num,
       impression.correspondingSymptoms[j] = symptomID;
       impression.sympCount++;
     }
-    printf("symptomID = %d\n", symptomID);
     impression.correspondingSymptoms[j] = TERMINATION_ID;
-    printf("impression.correspondingSymptoms[j] = %d\n",
-           impression.correspondingSymptoms[j]);
     impression.id = idTemp;
     strcpy(impression.name, nameTemp);
     db->database[i] = impression;

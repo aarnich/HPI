@@ -1,10 +1,46 @@
 #include "../include/utils.h"
 
+/**
+ * @Description : Clears the terminal screen
+ */
 void
 clear() {
   printf("\e[1;1H\e[2J");
 }
 
+/**
+ * @Description : Determines whether a given character is a digit
+ *
+ * @Param c - the character to be checked
+ *
+ * @Returns - 1 if the character is a digit, 0 otherwise
+ */
+int
+isDigit(char c) {
+  return c >= '0' && c <= '9';
+}
+
+/**
+ * @Description : Nullifies a string by setting all characters to '\0'
+ *
+ * @Param input - the string to be nullified
+ */
+void
+nullifyString(char *input) {
+  int i, len;
+  i = 0;
+
+  len = strlen(input);
+  for (; i < len; i++) {
+    input[i] = '\0';
+  }
+}
+
+/**
+ * @Description : Sleeps the program for a given number of miliseconds
+ *
+ * @Param milliseconds - the number of miliseconds to sleep
+ */
 void
 sleepMs(int milliseconds) {
   fflush(stdout);
@@ -21,7 +57,14 @@ sleepMs(int milliseconds) {
     sleep(milliseconds / 1000);
 #endif
 }
-// char to upper function
+
+/**
+ * @Description : Capitalizes a given character
+ *
+ * @Param c - the character to be capitalized
+ *
+ * @Returns : the capitalized character
+ */
 char
 toUpper(char c) {
   if (c >= 'a' && c <= 'z') {
@@ -30,12 +73,20 @@ toUpper(char c) {
   return c;
 }
 
+/**
+ * @Description : Asks the user to continue with the program
+ */
 void
 con() {
   printf("\n\nPress [[ENTER]] to continue");
   getchar();
 }
 
+/**
+ * @Description : handles an input of type INT
+ *
+ * @Returns : A valid inteeer
+ */
 int
 handleInt() {
   int i;
@@ -50,6 +101,14 @@ handleInt() {
   return i;
 }
 
+/**
+ * @Description : handles an input of type CHAR and checks whether the character
+ * is valid
+ *
+ * @Param ref - the reference string that limits valid characters
+ *
+ * @Returns : a character within the referenceInput
+ */
 char
 handleCh(ReferenceInput ref) {
   char c = '\0';
@@ -63,6 +122,13 @@ handleCh(ReferenceInput ref) {
   return c;
 }
 
+/**
+ * @Description : handles an input of type STRING and checks whether the string
+ * is a substring of the referenceInput
+ *
+ * @Param ref - the reference string that limits valid characters
+ * @Param input - the string to be checked
+ */
 void
 handleStr(ReferenceInput ref, char *input) {
   String str;
@@ -76,6 +142,14 @@ handleStr(ReferenceInput ref, char *input) {
   strcpy(input, str);
 }
 
+/**
+ * @Description : Handles input for the program
+ *
+ * @Param inputType - the type of input to be handled
+ * @Param ref - the reference string that contains valid characters, optional
+ * for INT
+ * @Param input - the string to be handled
+ */
 void
 inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
   switch (inputType) {
@@ -94,6 +168,13 @@ inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
   }
 }
 
+/**
+ * @Description : Checks whether a file exists in the directory
+ *
+ * @Param filename - the name of the file to be checked
+ *
+ * @Returns : 1 if the file exists, 0 otherwise
+ */
 int
 fileExists(const char *filename) {
   FILE *file;
@@ -108,6 +189,11 @@ fileExists(const char *filename) {
   return retval;
 }
 
+/**
+ * @Description : Gets a string from the user
+ *
+ * @Param input - the address of the string to be filled
+ */
 void
 getStr(char *input) {
   char temp[MAX_STRING_LEN + 1];
@@ -116,6 +202,13 @@ getStr(char *input) {
   strcpy(input, temp);
 }
 
+/**
+ * @Description : Confirms the user's input
+ *
+ * @Param question - the question to be asked
+ *
+ * @Returns : 1 if the user confirms, 0 otherwise
+ */
 int
 affirmative(const char *question) {
   int retval;
@@ -134,12 +227,25 @@ affirmative(const char *question) {
   return retval;
 }
 
+/**
+ * @Description : Removes newlines and spaces from the end of a string
+ *
+ * @Param input - the string to be trimmed
+ */
 void
 trim(char *input) {
   input[strcspn(input, "\n")] = 0;
 }
 
-// check if integer is inside array
+/**
+ * @Description : Checks whether an integer is found within the given array
+ *
+ * @Param arr - the array containing valid integers
+ * @Param num - the number of elements in the array
+ * @Param target - the integer to be checked
+ *
+ * @Returns : 1 if the integer is found, 0 otherwise
+ */
 int
 isFound(int *arr, int num, int target) {
   int retval, i;

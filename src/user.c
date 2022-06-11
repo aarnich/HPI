@@ -2,15 +2,30 @@
 #include "../include/utils.h"
 #include "stdlib.h"
 
+/**
+ * @Description : Initializes a patient struct and stores all values to the
+ * given patient struct address;
+ *
+ * @Param p - the patient struct address
+ */
 void
-initPatient(struct Patient *p) {
+initPatient(struct Patient *p)
+{
   strcpy(p->patientNumber, "");
   p->gender = ' ';
   p->age = -1;
   strcpy(p->name, "Nil");
 }
+
+/**
+ * @Description : Gets values for the patient by asking a series of questions
+ *
+ * @Param p - the address of the patient struct to be modified
+ * @Precondition - the pateint struct has already been initalized
+ */
 void
-getPatient(struct Patient *p) {
+getPatient(struct Patient *p)
+{
   ReferenceInput ref;
 
   String name;
@@ -30,8 +45,16 @@ getPatient(struct Patient *p) {
   p->gender = Gender;
 }
 
+/**
+ * @Description : Stores all symptoms from the patient where they answered yes
+ *
+ * @Param db - the symptom database
+ * @Param us - the address of the userSymps struct where all symptoms are stored
+ * @Precondition - the pateint struct has already been initalized
+ */
 void
-getPatientSymptoms(struct SymptomDB db, struct userSymps *us) {
+getPatientSymptoms(struct SymptomDB db, struct userSymps *us)
+{
   int i;
   char c;
   ReferenceInput ref = "YN";
@@ -48,8 +71,18 @@ getPatientSymptoms(struct SymptomDB db, struct userSymps *us) {
   }
 }
 
+/**
+ * @Description : Determines whether the given impression is present in the
+ * patient
+ *
+ * @Param input - the impression to be checked
+ * @Param us - the collection of user symptoms
+ *
+ * @Returns - 1 if the impression is present, 0 otherwise
+ */
 int
-validateImpression(struct Impression input, struct userSymps us) {
+validateImpression(struct Impression input, struct userSymps us)
+{
 
   int i;
   for (i = 0; i < input.sympCount; i++) {
@@ -60,9 +93,22 @@ validateImpression(struct Impression input, struct userSymps us) {
   return 1;
 }
 
+/**
+ * @Description : Gets all present impressions from the patient's symptoms
+ *
+ * @Param sDB - the symptom database
+ * @Param iDB - the impression database
+ * @Param ui - the address of the userImp struct where all user impressions are
+ * stored
+ * @Param us - the address of the userSymps struct where all user symptoms are
+ * stored
+ */
 void
-getPatientImpressions(struct SymptomDB sDB, struct ImpressionDB iDB,
-                      struct userImps *ui, struct userSymps *us) {
+getPatientImpressions(struct SymptomDB sDB,
+                      struct ImpressionDB iDB,
+                      struct userImps *ui,
+                      struct userSymps *us)
+{
   int i;
   //  initialize userSymps struct
   //  initialize userImps struct
@@ -81,8 +127,14 @@ getPatientImpressions(struct SymptomDB sDB, struct ImpressionDB iDB,
   }
 }
 
+/**
+ * @Description : Prints the patient's information
+ *
+ * @Param p - the patient struct
+ */
 void
-readPatientDetails(struct Patient p) {
+readPatientDetails(struct Patient p)
+{
 
   FILE *fp;
   char fileName[strlen(p.patientNumber) + 5];
@@ -101,8 +153,21 @@ readPatientDetails(struct Patient p) {
   }
 }
 
+/**
+ * @Description : Savess the patient's information to a text file generated from
+ * the user's patient number
+ *
+ * @Param p - the patient struct
+ * @Param ui - the userImp struct where all user impressions are stored
+ * @Param us - the userSymps struct where all user symptoms are stored
+ * @Precondition : the patient struct has already been initalized
+ * @Precondition : the userImps struct has already been initalized
+ * @Precondition : the userSymps struct has already been initalized
+
+ */
 void
-writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us) {
+writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
+{
   int i;
   FILE *fp;
   char fileName[strlen(p.patientNumber) + 5];
@@ -127,7 +192,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us) {
   }
 
   if (us.count == 0)
-    fprintf(fp, "none! They are relatively healthy");
+    fprintf(fp, " no symptoms!");
   else {
     for (i = 0; i < us.count - 1; i++) {
       fprintf(fp, " %s", us.symName[i]);
@@ -142,10 +207,10 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us) {
     fprintf(fp, " %s.\n", us.symName[i]);
   }
 
-  fprintf(fp, "Impressions are");
+  fprintf(fp, " Impressions are");
 
   if (ui.count == 0)
-    fprintf(fp, "none! They are relatively healthy");
+    fprintf(fp, " none! They are relatively healthy");
   else {
     for (i = 0; i < ui.count - 1; i++) {
       fprintf(fp, " %s", ui.impName[i]);
@@ -162,8 +227,15 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us) {
   fclose(fp);
 }
 
+/**
+ * @Description : Wrapper function for all patient processes
+ *
+ * @Param sDB - the symptom database
+ * @Param iDB - the impression database
+ */
 void
-PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB) {
+PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB)
+{
   getchar(); // clear the trailing newline
 
   // initialize all necessary structs

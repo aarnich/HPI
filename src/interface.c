@@ -1,17 +1,25 @@
 #include "../include/interface.h"
+
+/**
+ * @Description : Prints the main menu
+ */
 void
-v_MainMenu() {
+v_MainMenu()
+{
   printf("MENU #1 User Type\n\n");
 
   printf("D for Doctor\n");
   printf("P for Patient\n");
   printf("E for Exit\n");
-
   printf("\nEnter your choice: \n");
 }
 
+/**
+ * @Description : Prints the doctor menu
+ */
 void
-v_DrMenu() {
+v_DrMenu()
+{
   printf("\nC for Create a new list of symptoms and impressions\n");
   printf("U for Use the existing list of symptoms and impressions\n");
   printf("D for Display symptoms\n");
@@ -21,13 +29,23 @@ v_DrMenu() {
   printf("\nEnter your choice: \n");
 }
 
+/**
+ * @Description : Prints the patient menu
+ */
 void
-v_PatientMenu() {
+v_PatientMenu()
+{
   printf("MENU #3 Patient\n\n");
 }
 
+/**
+ * @Description : A wrapper for all menus
+ *
+ * @Param ui - determines the menu to be displayed
+ */
 void
-interface(uiType ui) {
+interface(uiType ui)
+{
   switch (ui) {
     case MAIN:
       v_MainMenu();
