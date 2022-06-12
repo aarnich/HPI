@@ -18,10 +18,8 @@ main()
 
   do {
     clear();
-    // display menu
     interface(MAIN);
 
-    // get user input of type char
     strcpy(ref, "DPE");
     inputHandler(CHAR, ref, (int *)&opt);
 
