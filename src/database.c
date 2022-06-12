@@ -44,6 +44,7 @@ void
  */
 initSymptom(struct Symptom *input)
 {
+
   struct Symptom prototype = {.id = -1, .name = "NIL", .question = "NIL"};
   *input = prototype;
 }
@@ -75,14 +76,12 @@ initSymptomDB(struct SymptomDB *db)
 int
 countSymptoms(int *symptoms)
 {
-  int i, count;
+  int i;
   i = 0;
-  count = 0;
   while (symptoms[i] != TERMINATION_ID) {
-    count++;
     i++;
   }
-  return count;
+  return i;
 }
 
 /**

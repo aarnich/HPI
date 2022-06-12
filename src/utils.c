@@ -4,7 +4,8 @@
  * @Description : Clears the terminal screen
  */
 void
-clear() {
+clear()
+{
   printf("\e[1;1H\e[2J");
 }
 
@@ -16,7 +17,8 @@ clear() {
  * @Returns - 1 if the character is a digit, 0 otherwise
  */
 int
-isDigit(char c) {
+isDigit(char c)
+{
   return c >= '0' && c <= '9';
 }
 
@@ -26,7 +28,8 @@ isDigit(char c) {
  * @Param input - the string to be nullified
  */
 void
-nullifyString(char *input) {
+nullifyString(char *input)
+{
   int i, len;
   i = 0;
 
@@ -42,7 +45,8 @@ nullifyString(char *input) {
  * @Param milliseconds - the number of miliseconds to sleep
  */
 void
-sleepMs(int milliseconds) {
+sleepMs(int milliseconds)
+{
   fflush(stdout);
 #ifdef WIN32 // if the current system is a windows system
   Sleep(milliseconds);
@@ -66,7 +70,8 @@ sleepMs(int milliseconds) {
  * @Returns : the capitalized character
  */
 char
-toUpper(char c) {
+toUpper(char c)
+{
   if (c >= 'a' && c <= 'z') {
     return c - 'a' + 'A';
   }
@@ -77,7 +82,8 @@ toUpper(char c) {
  * @Description : Asks the user to continue with the program
  */
 void
-con() {
+con()
+{
   printf("\n\nPress [[ENTER]] to continue");
   getchar();
 }
@@ -88,7 +94,8 @@ con() {
  * @Returns : A valid inteeer
  */
 int
-handleInt() {
+handleInt()
+{
   int i;
   int ch = 0;
   while (scanf(" %d", &i) != 1) {
@@ -110,7 +117,8 @@ handleInt() {
  * @Returns : a character within the referenceInput
  */
 char
-handleCh(ReferenceInput ref) {
+handleCh(ReferenceInput ref)
+{
   char c = '\0';
   scanf(" %c", &c);
   while (strchr(ref, toUpper(c)) == NULL) {
@@ -130,7 +138,8 @@ handleCh(ReferenceInput ref) {
  * @Param input - the string to be checked
  */
 void
-handleStr(ReferenceInput ref, char *input) {
+handleStr(ReferenceInput ref, char *input)
+{
   String str;
   getStr(str);
 
@@ -151,7 +160,8 @@ handleStr(ReferenceInput ref, char *input) {
  * @Param input - the string to be handled
  */
 void
-inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
+inputHandler(TYPE inputType, ReferenceInput ref, int *input)
+{
   switch (inputType) {
     case INT:
       *input = handleInt();
@@ -176,7 +186,8 @@ inputHandler(TYPE inputType, ReferenceInput ref, int *input) {
  * @Returns : 1 if the file exists, 0 otherwise
  */
 int
-fileExists(const char *filename) {
+fileExists(const char *filename)
+{
   FILE *file;
   int retval;
 
@@ -195,7 +206,8 @@ fileExists(const char *filename) {
  * @Param input - the address of the string to be filled
  */
 void
-getStr(char *input) {
+getStr(char *input)
+{
   char temp[MAX_STRING_LEN + 1];
   fgets(temp, MAX_STRING_LEN + 1, stdin);
   trim(temp);
@@ -210,10 +222,9 @@ getStr(char *input) {
  * @Returns : 1 if the user confirms, 0 otherwise
  */
 int
-affirmative(const char *question) {
-  int retval;
-
-  retval = 0;
+affirmative(const char *question)
+{
+  int retval = 0;
   String ans = " ";
   printf("%s\ntype YES (capitalized) if you're sure:\n", question);
 
@@ -233,7 +244,8 @@ affirmative(const char *question) {
  * @Param input - the string to be trimmed
  */
 void
-trim(char *input) {
+trim(char *input)
+{
   input[strcspn(input, "\n")] = 0;
 }
 
@@ -247,7 +259,8 @@ trim(char *input) {
  * @Returns : 1 if the integer is found, 0 otherwise
  */
 int
-isFound(int *arr, int num, int target) {
+isFound(int *arr, int num, int target)
+{
   int retval, i;
 
   retval = 0;

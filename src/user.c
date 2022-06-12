@@ -14,7 +14,7 @@ initPatient(struct Patient *p)
   strcpy(p->patientNumber, "");
   p->gender = ' ';
   p->age = -1;
-  strcpy(p->name, "Nil");
+  strcpy(p->name, "NIL");
 }
 
 /**
@@ -28,16 +28,23 @@ getPatient(struct Patient *p)
 {
   ReferenceInput ref;
 
+  // get patient name
   String name;
   printf("What is your name?\n");
   getStr(name);
   strcpy(p->name, name);
+
+  // get patient number
   String patientNumber;
   printf("What is your patient number?\n");
   getStr(patientNumber);
   strcpy(p->patientNumber, patientNumber);
+
+  // get patient age
   printf("Enter your age:\n");
   inputHandler(INT, ref, &p->age);
+
+  // get patient gender
   printf("Gender (M/F):\n");
   char Gender = ' ';
   strcpy(ref, "MF");
@@ -63,7 +70,7 @@ getPatientSymptoms(struct SymptomDB db, struct userSymps *us)
   for (i = 0; i < db.count; i++) {
     printf("%s\n", db.database[i].question);
     inputHandler(CHAR, ref, (int *)&c);
-    if (c == 'Y' || c == 'y') {
+    if (toUpper(c) == 'Y') {
       us->arr[us->count] = db.database[i].id;
       strcpy(us->symName[us->count], db.database[i].name);
       us->count++;
@@ -85,12 +92,14 @@ validateImpression(struct Impression input, struct userSymps us)
 {
 
   int i;
+  int retval = 1;
   for (i = 0; i < input.sympCount; i++) {
     if (!isFound(us.arr, input.sympCount, input.correspondingSymptoms[i])) {
-      return 0;
+      i = input.sympCount;
+      retval = 0;
     }
   }
-  return 1;
+  return retval;
 }
 
 /**
@@ -178,13 +187,11 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
   fprintf(fp, "%s, patient # ", p.name);
   fprintf(fp, "%s, is a ", p.patientNumber);
   fprintf(fp, "%d year old ", p.age);
-  switch (p.gender) {
+  switch (toUpper(p.gender)) {
     case 'M':
-    case 'm':
       fprintf(fp, "male. He has");
       break;
     case 'F':
-    case 'f':
       fprintf(fp, "female. She has");
       break;
     default:
