@@ -349,7 +349,8 @@ getImpressionFromID(struct ImpressionDB db, int ID)
  * @Param db - the symptom database
  * @Param name - the name of the impression
  *
- * @Returns - the Impression with the given name
+ * @Returns - the Impression with the given name if found, returns a default
+ * impression otherwise | calls initImpression() to create a default impression
  */
 struct Impression
 getImpressionFromName(struct ImpressionDB db, char *name)
@@ -366,6 +367,7 @@ getImpressionFromName(struct ImpressionDB db, char *name)
     }
   }
 
+  // only return a valid impression if the name is found
   if (index != -1) {
     return db.database[index];
   }

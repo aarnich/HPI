@@ -13,14 +13,19 @@ void
 DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
 {
 
+  // default welcoming message
   printf("\nMENU #2 Doctor\n\n");
+
   char opt = ' ', exitFlag = 'E';
-  int count = 0, impressionID = -1;
+
+  int count = 0, impressionID = -1, aff = 0;
+
   String impression = " ";
-  int aff = 0;
+  ReferenceInput ref = " ";
+
+  // initialize default impression
   struct Impression imp;
   initImpression(&imp);
-  ReferenceInput ref = " ";
 
   do {
     clear();
@@ -37,17 +42,30 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
       printf("Doctor please select another input: ");
       inputHandler(CHAR, ref, (int *)&opt);
     }
+
     switch (opt) {
       case 'C':
+        // get number of symptoms from the user
         printf("How many symptoms do you want to consider? ");
         strcpy(ref, " ");
         inputHandler(INT, ref, &count);
+
+        // create the symptom database from user input
         createNewSymptomDB(sDB, count);
+
+        // get number of symptoms from the user
         printf("How many impressions do you want to consider? ");
         inputHandler(INT, ref, &count);
+
+        // create the impression database from user input
         createNewImpressionDB(iDB, count, *sDB);
+
+        // save the symptom database to a file
         writeSymptoms(sDB, "Symptoms.txt");
+        // save the impression database to a file
         writeImpressions(iDB, "Impressions.txt");
+
+        // prompt the user to continue
         con();
         break;
       case 'U':
@@ -66,14 +84,21 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         else {
           printf("\nNo impressions found.\n");
         }
+        // clear extra newline character
         getchar();
+
+        // prompt the user to continue
         con();
         break;
       case 'D':
+        // clear extra newline character
         getchar();
+
+        // get the symptom name from the user
         printf("\nWhat is the Impression?\n");
         getStr(impression);
 
+        // create temporary prototype impression
         imp = getImpressionFromName(*iDB, impression);
         if (imp.id != TERMINATION_ID) {
           displayImpressionSymptoms(imp, *sDB);
@@ -84,14 +109,20 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         con();
         break;
       case 'M':
+        // clear extra newline character
         getchar();
+
+        // get the symptom name from the user
         printf("\nWhat is the Impression?\n");
         getStr(impression);
+
+        // create temporary prototype impression
         imp = getImpressionFromName(*iDB, impression);
         if (imp.id == TERMINATION_ID) {
           printf("Impressin not found");
         }
         else {
+          // if the impression exists, ask the user to modify its symptoms
           impressionID = imp.id;
           printf("\nYou can modify the symptoms of %s.\n", imp.name);
           printf("Below is the list of symptoms:\n");
@@ -106,6 +137,7 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         printf("\nInvalid input.\n");
         break;
     }
+    // sleep to slowdown input
     sleepMs(700);
   } while (opt != exitFlag);
 }

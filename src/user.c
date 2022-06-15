@@ -68,11 +68,16 @@ getPatientSymptoms(struct SymptomDB db, struct userSymps *us)
 
   c = ' ';
   for (i = 0; i < db.count; i++) {
+    // ask the symptom's question
     printf("%s\n", db.database[i].question);
     inputHandler(CHAR, ref, (int *)&c);
+
+    // if the user answered yes, add it to the userSymps struct
     if (toUpper(c) == 'Y') {
       us->arr[us->count] = db.database[i].id;
       strcpy(us->symName[us->count], db.database[i].name);
+
+      // increment the userSymps struct's count to keep track of the new symptom
       us->count++;
     }
   }
@@ -95,6 +100,8 @@ validateImpression(struct Impression input, struct userSymps us)
   int retval = 1;
   for (i = 0; i < input.sympCount; i++) {
     if (!isFound(us.arr, input.sympCount, input.correspondingSymptoms[i])) {
+      // if the symptom is not found, the impression is invalid
+      // quit the loop and return retval = 0
       i = input.sympCount;
       retval = 0;
     }
@@ -129,8 +136,12 @@ getPatientImpressions(struct SymptomDB sDB,
   // loop through impressionDB
   for (i = 0; i < iDB.count; i++) {
     if (validateImpression(iDB.database[i], *us)) {
+      // if the impression is valid, add it to the userImps struct
       ui->arr[ui->count] = iDB.database[i].id;
       strcpy(ui->impName[ui->count], iDB.database[i].name);
+
+      // increment the userImps struct's count to keep track of the new
+      // impression
       ui->count++;
     }
   }
@@ -146,7 +157,8 @@ readPatientDetails(struct Patient p)
 {
 
   FILE *fp;
-  char fileName[strlen(p.patientNumber) + 5];
+  char fileName[strlen(p.patientNumber) + 5]; // adding 5 bytes for .txt
+
   sprintf(fileName, "%s.txt", p.patientNumber);
 
   fp = fopen(fileName, "r");
@@ -179,9 +191,12 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
 {
   int i;
   FILE *fp;
-  char fileName[strlen(p.patientNumber) + 5];
+  char fileName[strlen(p.patientNumber) + 5]; // adding 5 bytes for .txt
+
   sprintf(fileName, "%s.txt", p.patientNumber);
   fp = fopen(fileName, "w");
+
+  // add default header to the file
   fprintf(fp, "History of Present Illness\n\n");
 
   fprintf(fp, "%s, patient # ", p.name);
@@ -249,6 +264,8 @@ PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB)
   struct Patient p;
   struct userImps ui;
   struct userSymps us;
+
+  // initialize Patient struct
   initPatient(&p);
   us.count = 0;
   ui.count = 0;
@@ -263,12 +280,14 @@ PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB)
 
   // write patient details to file
   writeUserDetails(p, ui, us);
-
+  // read patient details from file
   readPatientDetails(p);
 
   printf("\n\nPatient details saved to %s.txt\n", p.patientNumber);
 
+  // consume extra newline
   getchar();
   sleepMs(500);
+
   con();
 }
