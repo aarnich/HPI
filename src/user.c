@@ -229,7 +229,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
     fprintf(fp, " %s.\n", us.symName[i]);
   }
 
-  fprintf(fp, " Impressions are");
+  fprintf(fp, "Impressions are");
 
   if (ui.count == 0)
     fprintf(fp, " none! They are relatively healthy");

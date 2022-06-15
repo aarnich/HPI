@@ -45,6 +45,10 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
 
     switch (opt) {
       case 'C':
+        clear();
+        // title card
+        printf("\nCreate a new list of symptoms and impressions\n\n");
+
         // get number of symptoms from the user
         printf("How many symptoms do you want to consider? ");
         strcpy(ref, " ");
@@ -54,7 +58,7 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         createNewSymptomDB(sDB, count);
 
         // get number of symptoms from the user
-        printf("How many impressions do you want to consider? ");
+        printf("\n\nnHow many impressions do you want to consider? ");
         inputHandler(INT, ref, &count);
 
         // create the impression database from user input
@@ -89,8 +93,15 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
 
         // prompt the user to continue
         con();
+
+        // exit the loop, under the assumption that after this option, the
+        // patient will input their details
+        opt = exitFlag;
         break;
       case 'D':
+        clear();
+        // title card
+        printf("\nDisplay symptoms\n\n");
         // clear extra newline character
         getchar();
 
@@ -109,23 +120,24 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         con();
         break;
       case 'M':
+        clear();
+        // title card
+        printf("\nModify symptoms\n\n");
         // clear extra newline character
         getchar();
 
         // get the symptom name from the user
-        printf("\nWhat is the Impression?\n");
+        printf("\nWhat is the impression?\n");
         getStr(impression);
 
         // create temporary prototype impression
         imp = getImpressionFromName(*iDB, impression);
         if (imp.id == TERMINATION_ID) {
-          printf("Impressin not found");
+          printf("impression not found");
         }
         else {
           // if the impression exists, ask the user to modify its symptoms
           impressionID = imp.id;
-          printf("\nYou can modify the symptoms of %s.\n", imp.name);
-          printf("Below is the list of symptoms:\n");
           modifyImpressionSymptoms(&iDB->database[impressionID - 1], *sDB);
         }
         con();

@@ -310,7 +310,7 @@ getSymptoms(struct SymptomDB db, int *symptomArr)
 
   int i;
   for (i = 0; i < db.count; i++) {
-    printf("%d. %s\n", db.database[i].id, db.database[i].name);
+    printf("\t\t%d. %s\n", db.database[i].id, db.database[i].name);
     symptomArr[i] = db.database[i].id;
   }
 }
@@ -420,15 +420,14 @@ createNewSymptomDB(struct SymptomDB *db, int num)
     initSymptom(&symptom);
 
     idNum = i + 1;
-    printf("\n#############################");
-    printf("\nSymptom Number: %d\n", idNum);
+    printf("\n\t\tSymptom # %d:\n\t\t", idNum);
     symptom.id = idNum;
 
-    printf("\nWhat is the symptom?\n");
+    printf("\t\tWhat is the symptom?\n\t\t");
     getStr(temp);
     strcpy(symptom.name, temp);
 
-    printf("\nHow do you want to ask about the symptom?\n");
+    printf("\n\t\tHow do you want to ask about the symptom?\n\t\t");
     getStr(temp);
     strcpy(symptom.question, temp);
 
@@ -446,6 +445,8 @@ createNewSymptomDB(struct SymptomDB *db, int num)
 void
 modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
 {
+
+  printf("Below is a list of symptoms:\n\n");
   int symptomArr[MAX_SYMPTOMS + 1];
   getSymptoms(db, symptomArr);
 
@@ -457,7 +458,8 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
 
   symptomCount = 0;
   symptomID = 0;
-  printf("How many symptoms are present in the %s case? ", imp->name);
+
+  printf("\n\nHow many symptoms are present in a %s case? ", imp->name);
   inputHandler(INT, ref, &symptomCount);
   printf("\nEnter the corresponding number of each symptom\n");
   for (j = 0; j < symptomCount; j++) {
@@ -475,8 +477,9 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
   printf("Here are the NEW SYMPTOMS of %s: \n", imp->name);
   for (j = 0; j < symptomCount; j++) {
     symp = getSymptomFromID(db, imp->correspondingSymptoms[j]);
-    printf("\t%s, ", symp.name);
+    printf("\t%s\n", symp.name);
   }
+  getchar();
 }
 
 /**
@@ -521,7 +524,7 @@ createNewImpressionDB(struct ImpressionDB *db,
     initImpression(&impression);
 
     idTemp = i + 1;
-    printf("\n\nImpression # %d\n", idTemp);
+    printf("\n\nImpression # %d:\n", idTemp);
     getchar();
 
     printf("What is the illness?\n");
