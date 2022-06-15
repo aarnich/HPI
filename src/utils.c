@@ -34,9 +34,8 @@ nullifyString(char *input)
   i = 0;
 
   len = strlen(input);
-  for (; i < len; i++) {
+  for (; i < len; i++)
     input[i] = '\0';
-  }
 }
 
 /**
@@ -72,9 +71,9 @@ sleepMs(int milliseconds)
 char
 toUpper(char c)
 {
-  if (c >= 'a' && c <= 'z') {
+  if (c >= 'a' && c <= 'z')
     return c - 'a' + 'A';
-  }
+
   return c;
 }
 
@@ -98,9 +97,11 @@ handleInt()
 {
   int i;
   int ch = 0;
-  while (scanf(" %d", &i) != 1) {
+  while (scanf(" %d", &i) != 1)
+  {
     printf("Error: argument %d is not an integer\n", i);
     printf("Please enter a valid number: ");
+    // clear the buffer
     while ((ch = getchar()) != '\n' && ch != EOF)
       ;
   }
@@ -121,7 +122,8 @@ handleCh(ReferenceInput ref)
 {
   char c = '\0';
   scanf(" %c", &c);
-  while (strchr(ref, toUpper(c)) == NULL) {
+  while (strchr(ref, toUpper(c)) == NULL)
+  {
     printf("Error: argument %c is not a valid character\n", c);
     printf("Please enter a valid character: ");
     scanf(" %c", &c);
@@ -144,10 +146,12 @@ handleStr(ReferenceInput ref, char *input)
   getStr(str);
 
   // locate str substring inside ref
-  while (strstr(ref, str) == NULL) {
+  while (strstr(ref, str) == NULL)
+  {
     printf("Not in dataset, try again\n");
     getStr(str);
   }
+
   strcpy(input, str);
 }
 
@@ -162,7 +166,8 @@ handleStr(ReferenceInput ref, char *input)
 void
 inputHandler(TYPE inputType, ReferenceInput ref, int *input)
 {
-  switch (inputType) {
+  switch (inputType)
+  {
     case INT:
       *input = handleInt();
       break;
@@ -192,7 +197,8 @@ fileExists(const char *filename)
   int retval;
 
   retval = 0;
-  if ((file = fopen(filename, "r"))) {
+  if ((file = fopen(filename, "r")))
+  {
     fclose(file);
     retval = 1;
   }
@@ -231,9 +237,8 @@ affirmative(const char *question)
   getchar();
   getStr(ans);
 
-  if (strcmp(ans, "YES") == 0) {
+  if (strcmp(ans, "YES") == 0)
     retval = 1;
-  }
 
   return retval;
 }
@@ -264,11 +269,9 @@ isFound(int *arr, int num, int target)
   int retval, i;
 
   retval = 0;
-  for (i = 0; i < num; i++) {
-    if (arr[i] == target) {
+  for (i = 0; i < num; i++)
+    if (arr[i] == target)
       retval = 1;
-    }
-  }
 
   return retval;
 }

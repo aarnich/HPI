@@ -27,7 +27,8 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
   struct Impression imp;
   initImpression(&imp);
 
-  do {
+  do
+  {
     clear();
 
     interface(DOCTOR);
@@ -38,12 +39,14 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
     opt = toUpper(opt);
     while (
         opt == 'C' &&
-        (aff = affirmative("This selection is potentially destructive") != 1)) {
+        (aff = affirmative("This selection is potentially destructive") != 1))
+    {
       printf("Doctor please select another input: ");
       inputHandler(CHAR, ref, (int *)&opt);
     }
 
-    switch (opt) {
+    switch (opt)
+    {
       case 'C':
         clear();
         // title card
@@ -73,21 +76,22 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         con();
         break;
       case 'U':
-        if (fileExists("Symptoms.txt")) {
+        if (fileExists("Symptoms.txt"))
+        {
           readSymptomDB(sDB, "Symptoms.txt");
           printf("Symptoms successfully loaded.\n");
         }
-        else {
+        else
           printf("\nNo symptoms found.\n");
-        }
 
-        if (fileExists("Impressions.txt")) {
+        if (fileExists("Impressions.txt"))
+        {
           readImpressionDB(iDB, "Impressions.txt");
           printf("Impressions successfully loaded.\n");
         }
-        else {
+        else
           printf("\nNo impressions found.\n");
-        }
+
         // clear extra newline character
         getchar();
 
@@ -111,12 +115,12 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
 
         // create temporary prototype impression
         imp = getImpressionFromName(*iDB, impression);
-        if (imp.id != TERMINATION_ID) {
+        if (imp.id != TERMINATION_ID)
           displayImpressionSymptoms(imp, *sDB);
-        }
-        else {
+
+        else
           printf("\nImpression not found.\n");
-        }
+
         con();
         break;
       case 'M':
@@ -132,10 +136,11 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
 
         // create temporary prototype impression
         imp = getImpressionFromName(*iDB, impression);
-        if (imp.id == TERMINATION_ID) {
+        if (imp.id == TERMINATION_ID)
           printf("impression not found");
-        }
-        else {
+
+        else
+        {
           // if the impression exists, ask the user to modify its symptoms
           impressionID = imp.id;
           modifyImpressionSymptoms(&iDB->database[impressionID - 1], *sDB);

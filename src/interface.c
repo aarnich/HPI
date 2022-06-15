@@ -46,7 +46,8 @@ v_PatientMenu()
 void
 interface(uiType ui)
 {
-  switch (ui) {
+  switch (ui)
+  {
     case MAIN:
       v_MainMenu();
       break;

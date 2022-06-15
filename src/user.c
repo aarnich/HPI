@@ -67,13 +67,15 @@ getPatientSymptoms(struct SymptomDB db, struct userSymps *us)
   ReferenceInput ref = "YN";
 
   c = ' ';
-  for (i = 0; i < db.count; i++) {
+  for (i = 0; i < db.count; i++)
+  {
     // ask the symptom's question
     printf("%s\n", db.database[i].question);
     inputHandler(CHAR, ref, (int *)&c);
 
     // if the user answered yes, add it to the userSymps struct
-    if (toUpper(c) == 'Y') {
+    if (toUpper(c) == 'Y')
+    {
       us->arr[us->count] = db.database[i].id;
       strcpy(us->symName[us->count], db.database[i].name);
 
@@ -98,8 +100,10 @@ validateImpression(struct Impression input, struct userSymps us)
 
   int i;
   int retval = 1;
-  for (i = 0; i < input.sympCount; i++) {
-    if (!isFound(us.arr, input.sympCount, input.correspondingSymptoms[i])) {
+  for (i = 0; i < input.sympCount; i++)
+  {
+    if (!isFound(us.arr, input.sympCount, input.correspondingSymptoms[i]))
+    {
       // if the symptom is not found, the impression is invalid
       // quit the loop and return retval = 0
       i = input.sympCount;
@@ -134,8 +138,10 @@ getPatientImpressions(struct SymptomDB sDB,
   getPatientSymptoms(sDB, us);
 
   // loop through impressionDB
-  for (i = 0; i < iDB.count; i++) {
-    if (validateImpression(iDB.database[i], *us)) {
+  for (i = 0; i < iDB.count; i++)
+  {
+    if (validateImpression(iDB.database[i], *us))
+    {
       // if the impression is valid, add it to the userImps struct
       ui->arr[ui->count] = iDB.database[i].id;
       strcpy(ui->impName[ui->count], iDB.database[i].name);
@@ -162,16 +168,17 @@ readPatientDetails(struct Patient p)
   sprintf(fileName, "%s.txt", p.patientNumber);
 
   fp = fopen(fileName, "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     printf("File not found\n");
+    // file does not exist, return
     return;
   }
-
   char line[100];
+
   printf("\n");
-  while (fgets(line, 100, fp) != NULL) {
+  while (fgets(line, 100, fp) != NULL)
     printf("%s", line);
-  }
 }
 
 /**
@@ -202,7 +209,8 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
   fprintf(fp, "%s, patient # ", p.name);
   fprintf(fp, "%s, is a ", p.patientNumber);
   fprintf(fp, "%d year old ", p.age);
-  switch (toUpper(p.gender)) {
+  switch (toUpper(p.gender))
+  {
     case 'M':
       fprintf(fp, "male. He has");
       break;
@@ -215,8 +223,10 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
 
   if (us.count == 0)
     fprintf(fp, " no symptoms!");
-  else {
-    for (i = 0; i < us.count - 1; i++) {
+  else
+  {
+    for (i = 0; i < us.count - 1; i++)
+    {
       fprintf(fp, " %s", us.symName[i]);
 
       if ((i - us.count - 1) >= 1)
@@ -233,8 +243,10 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
 
   if (ui.count == 0)
     fprintf(fp, " none! They are relatively healthy");
-  else {
-    for (i = 0; i < ui.count - 1; i++) {
+  else
+  {
+    for (i = 0; i < ui.count - 1; i++)
+    {
       fprintf(fp, " %s", ui.impName[i]);
 
       if ((i - ui.count - 1) >= 1)
@@ -243,6 +255,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
 
     if (ui.count > 1)
       fprintf(fp, " and");
+
     fprintf(fp, " %s.\n", ui.impName[i]);
   }
 
