@@ -43,6 +43,7 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
     {
       printf("Since you're unsure, Doctor, please select another input: ");
       inputHandler(CHAR, ref, (int *)&opt);
+      opt = toUpper(opt);
     }
 
     switch (opt)

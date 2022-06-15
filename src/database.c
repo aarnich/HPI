@@ -498,7 +498,7 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
   }
 
   imp->correspondingSymptoms[j] = TERMINATION_ID;
-  printf("Here are the NEW SYMPTOMS of %s: \n", imp->name);
+  printf("\n\n\t\tHere are the NEW SYMPTOMS of %s: \n", imp->name);
   for (j = 0; j < symptomCount; j++)
   {
     symp = getSymptomFromID(db, imp->correspondingSymptoms[j]);
