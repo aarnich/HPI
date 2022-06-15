@@ -1,4 +1,5 @@
 #include "../include/dbstructs.h"
+#include "../include/interface.h"
 #include "../include/utils.h"
 #include "stdlib.h"
 
@@ -271,6 +272,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
 void
 PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB)
 {
+  interface(PATIENT);
   getchar(); // clear the trailing newline
 
   // initialize all necessary structs

@@ -10,6 +10,29 @@ clear()
 }
 
 /**
+ * @Description : Prints all the contents of a given file if it exists
+ *
+ * @Param fileName - the name of the file to be printed
+ */
+void
+printFile(const char *fileName)
+{
+  FILE *fp;
+  char c;
+  fp = fopen(fileName, "r");
+  if (fp == NULL)
+  {
+    printf("Error opening file!\n");
+    return;
+  }
+  while ((c = fgetc(fp)) != EOF)
+  {
+    printf("%c", c);
+  }
+  fclose(fp);
+}
+
+/**
  * @Description : Determines whether a given character is a digit
  *
  * @Param c - the character to be checked

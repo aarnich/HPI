@@ -32,16 +32,16 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
     clear();
 
     interface(DOCTOR);
-    strcpy(ref, "CUDME");
+    strcpy(ref, "CUDSME");
     inputHandler(CHAR, ref, (int *)&opt);
 
     // capitalize opt for consistency
     opt = toUpper(opt);
-    while (
-        opt == 'C' &&
-        (aff = affirmative("This selection is potentially destructive") != 1))
+    while (opt == 'C' &&
+           (aff = affirmative(
+                      "\n\nThis selection is potentially destructive\n") != 1))
     {
-      printf("Doctor please select another input: ");
+      printf("Since you're unsure, Doctor, please select another input: ");
       inputHandler(CHAR, ref, (int *)&opt);
     }
 
@@ -60,15 +60,18 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         // create the symptom database from user input
         createNewSymptomDB(sDB, count);
 
-        // get number of symptoms from the user
-        printf("\n\nnHow many impressions do you want to consider? ");
-        inputHandler(INT, ref, &count);
-
-        // create the impression database from user input
-        createNewImpressionDB(iDB, count, *sDB);
-
         // save the symptom database to a file
         writeSymptoms(sDB, "Symptoms.txt");
+
+        // create the impression database from user input
+        clear();
+
+        // get number of symptoms from the user
+        printf("\n\nHow many impressions do you want to consider? ");
+        inputHandler(INT, ref, &count);
+
+        createNewImpressionDB(iDB, count, *sDB);
+
         // save the impression database to a file
         writeImpressions(iDB, "Impressions.txt");
 
@@ -120,6 +123,27 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
 
         else
           printf("\nImpression not found.\n");
+
+        con();
+        break;
+      case 'S':
+        clear();
+        // title card
+        printf("\nShow Impressions.txt and Symptoms.txt\n\n");
+        // clear extra newline character
+        getchar();
+
+        printf("\n\n--- Symptoms.txt ---\n\n");
+        if (fileExists("Symptoms.txt"))
+          printFile("Symptoms.txt");
+        else
+          printf("\nFILE NOT FOUND.\n");
+
+        printf("\n\n--- Impressions.txt ---\n\n");
+        if (fileExists("Impressions.txt"))
+          printFile("Impressions.txt");
+        else
+          printf("\nFILE NOT FOUND.\n");
 
         con();
         break;

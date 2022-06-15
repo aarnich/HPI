@@ -12,9 +12,17 @@
 #define pass printf("PASS\n")
 #define MAX_VALID_INPUT_LEN 12
 
-typedef enum { INT, DOUBLE, STRING, CHAR } TYPE;
+typedef enum
+{
+  INT,
+  DOUBLE,
+  STRING,
+  CHAR
+} TYPE;
 
 void inputHandler(TYPE inputType, ReferenceInput ref, int *input);
+
+void printFile(const char *fileName);
 
 int handleInt();
 

@@ -322,11 +322,13 @@ getSymptoms(struct SymptomDB db, int *symptomArr)
 {
 
   int i;
+  printf("\n");
   for (i = 0; i < db.count; i++)
   {
     printf("\t\t%d. %s\n", db.database[i].id, db.database[i].name);
     symptomArr[i] = db.database[i].id;
   }
+  printf("\n");
 }
 
 /**
@@ -439,14 +441,14 @@ createNewSymptomDB(struct SymptomDB *db, int num)
     initSymptom(&symptom);
 
     idNum = i + 1;
-    printf("\n\t\tSymptom # %d:\n\t\t", idNum);
+    printf("\n\t\tSymptom # %d:\n\n", idNum);
     symptom.id = idNum;
 
     printf("\t\tWhat is the symptom?\n\t\t");
     getStr(temp);
     strcpy(symptom.name, temp);
 
-    printf("\n\t\tHow do you want to ask about the symptom?\n\t\t");
+    printf("\t\tHow do you want to ask about the symptom?\n\t\t");
     getStr(temp);
     strcpy(symptom.question, temp);
 
@@ -478,17 +480,17 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
   symptomCount = 0;
   symptomID = 0;
 
-  printf("\n\nHow many symptoms are present in a %s case? ", imp->name);
+  printf("\n\n\t\tHow many symptoms are present in a %s case? ", imp->name);
   inputHandler(INT, ref, &symptomCount);
-  printf("\nEnter the corresponding number of each symptom\n");
+  printf("\n\t\tEnter the corresponding number of each symptom\n");
   for (j = 0; j < symptomCount; j++)
   {
-    printf("Symptom # %d: ", j + 1);
+    printf("\t\tSymptom # %d: ", j + 1);
     inputHandler(INT, ref, &symptomID);
     while (!isFound(symptomArr, db.count, symptomID))
     {
-      printf("Not in dataset, try again.\n");
-      printf("Symptom # %d: ", j + 1);
+      printf("\t\tNot in dataset, try again.\n");
+      printf("\t\tSymptom # %d: ", j + 1);
       inputHandler(INT, ref, &symptomID);
     }
     imp->correspondingSymptoms[j] = symptomID;
@@ -549,26 +551,26 @@ createNewImpressionDB(struct ImpressionDB *db,
     initImpression(&impression);
 
     idTemp = i + 1;
-    printf("\n\nImpression # %d:\n", idTemp);
+    printf("\n\t\t----Impression # %d:----\n\n", idTemp);
     getchar();
 
-    printf("What is the illness?\n");
+    printf("\t\tWhat is the illness?\n\t\t");
     getStr(nameTemp);
 
-    printf("Below is a list of symptoms: \n");
+    printf("\t\tBelow is a list of symptoms: \n");
     getSymptoms(symptoms, symptomIDs);
 
-    printf("How many symptoms are present in the %s case? ", nameTemp);
+    printf("\t\tHow many symptoms are present in the %s case? ", nameTemp);
     inputHandler(INT, ref, &symptomCount);
-    printf("\nEnter the corresponding number of each symptom\n");
+    printf("\n\t\tEnter the corresponding number of each symptom\n");
     for (j = 0; j < symptomCount; j++)
     {
-      printf("Symptom # %d: ", j + 1);
+      printf("\t\tSymptom # %d: ", j + 1);
       inputHandler(INT, ref, &symptomID);
       while (!isFound(symptomIDs, symptoms.count, symptomID))
       {
-        printf("Not in dataset, try again.\n");
-        printf("Symptom # %d: ", j + 1);
+        printf("\t\tNot in dataset, try again.\n");
+        printf("\t\tSymptom # %d: ", j + 1);
         inputHandler(INT, ref, &symptomID);
       }
       impression.correspondingSymptoms[j] = symptomID;
