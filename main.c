@@ -16,11 +16,14 @@ students and/or persons.
 int
 main()
 {
-  ReferenceInput ref = " ";
-  char exitFlag = 'E';
-  char opt = ' ';
+
   struct ImpressionDB iDB;
   struct SymptomDB sDB;
+
+  ReferenceInput ref = " ";
+
+  char exitFlag = 'E';
+  char opt = ' ';
 
   // initialize necessary database structures
   initSymptomDB(&sDB);
