@@ -98,9 +98,11 @@ int
 readSymptomsID(int *dest, char *src)
 {
   int i, j, k;
-  char token[3];
-  j = k = i = 0;
   int inputlen = strlen(src);
+
+  char token[3];
+
+  j = k = i = 0;
   for (; i <= inputlen; i++)
   {
     // copy space separated substring input to ID at index
@@ -135,22 +137,23 @@ readImpression(FILE *file, struct Impression *output)
 {
 
   struct Impression prototype;
+  String name, symptoms;
+  ID idstr;
+  int id;
+
   initImpression(&prototype);
 
-  ID idstr;
   fgets(idstr, 3, file);
   trim(idstr);
-  int id = atoi(idstr);
+  id = atoi(idstr);
   prototype.id = id;
   // get the name
 
-  String name;
   fgets(name, MAX_STRING_LEN, file);
   trim(name);
   strcpy(prototype.name, name);
 
   // get the string of corresponding symptoms
-  String symptoms;
   fgets(symptoms, MAX_STRING_LEN, file);
   trim(symptoms);
   prototype.sympCount =
@@ -171,19 +174,19 @@ readSymptom(FILE *file, struct Symptom *output)
 {
 
   struct Symptom prototype;
+  String name, question;
+  ID id;
+
   initSymptom(&prototype);
 
-  ID id;
   fgets(id, 3, file);
   trim(id);
   prototype.id = atoi(id);
 
-  String name;
   fgets(name, MAX_STRING_LEN, file);
   trim(name);
   strcpy(prototype.name, name);
 
-  String question;
   fgets(question, MAX_STRING_LEN, file);
   trim(question);
   strcpy(prototype.question, question);
@@ -228,17 +231,16 @@ void
 readImpressionDB(struct ImpressionDB *db, const char *fileName)
 {
   // open Impressions.txt file
-  FILE *file = fopen(fileName, "r");
   char line[ID_LEN + 1];
+  int i;
+
+  FILE *file = fopen(fileName, "r");
   fgets(line, ID_LEN + 1, file);
   db->count = atoi(line);
 
   // read the rest of the file
-  int i;
   for (i = 0; i < db->count; i++)
-  {
     readImpression(file, &db->database[i]);
-  }
 
   fclose(file);
 }
@@ -252,10 +254,11 @@ readImpressionDB(struct ImpressionDB *db, const char *fileName)
 void
 writeSymptoms(struct SymptomDB *db, const char *fileName)
 {
+
+  int i;
   FILE *file = fopen(fileName, "w");
   fprintf(file, "%d", db->count);
 
-  int i;
   for (i = 0; i < db->count; i++)
   {
     fprintf(file, "\n%d", db->database[i].id);
@@ -274,12 +277,11 @@ writeSymptoms(struct SymptomDB *db, const char *fileName)
 void
 printImpression(struct Impression imp)
 {
-  printf("\n%d. %s\n", imp.id, imp.name);
   int i;
+
+  printf("\n%d. %s\n", imp.id, imp.name);
   for (i = 0; i <= MAX_SYMPTOMS; i++)
-  {
     printf("%d ", imp.correspondingSymptoms[i]);
-  }
 }
 
 /**
@@ -291,10 +293,9 @@ printImpression(struct Impression imp)
 void
 writeImpressions(struct ImpressionDB *db, const char *fileName)
 {
+  int i, j;
   FILE *file = fopen(fileName, "w");
   fprintf(file, "%d", db->count);
-
-  int i, j;
 
   for (i = 0; i < db->count; i++)
   {
@@ -372,9 +373,9 @@ struct Impression
 getImpressionFromName(struct ImpressionDB db, char *name)
 {
   struct Impression defVal;
+  int i, index;
+
   initImpression(&defVal);
-  int i;
-  int index;
 
   index = -1;
   for (i = 0; i < db.count; i++)
@@ -403,10 +404,12 @@ getImpressionFromName(struct ImpressionDB db, char *name)
 void
 displayImpressionSymptoms(struct Impression imp, struct SymptomDB db)
 {
-  printf("The symptoms of %s are: ", imp.name);
   int i;
   struct Symptom symp;
   initSymptom(&symp);
+
+  printf("The symptoms of %s are: ", imp.name);
+
   for (i = 0;
        (i < db.count) && (imp.correspondingSymptoms[i] != TERMINATION_ID);
        i++)
@@ -427,15 +430,16 @@ displayImpressionSymptoms(struct Impression imp, struct SymptomDB db)
 void
 createNewSymptomDB(struct SymptomDB *db, int num)
 {
-  initSymptomDB(db);
 
+  struct Symptom symptom;
   int i, idNum;
   String temp;
 
-  idNum = 0;
-  struct Symptom symptom;
+  initSymptomDB(db);
 
   getchar();
+
+  idNum = 0;
   for (i = 0; i < num; i++)
   {
     initSymptom(&symptom);
@@ -467,14 +471,14 @@ void
 modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
 {
 
-  printf("Below is a list of symptoms:\n\n");
-  int symptomArr[MAX_SYMPTOMS + 1];
-  getSymptoms(db, symptomArr);
-
   int j, symptomCount, symptomID;
+  int symptomArr[MAX_SYMPTOMS + 1];
+  struct Symptom symp;
   ReferenceInput ref;
 
-  struct Symptom symp;
+  printf("Below is a list of symptoms:\n\n");
+  getSymptoms(db, symptomArr);
+
   initSymptom(&symp);
 
   symptomCount = 0;
@@ -537,15 +541,15 @@ createNewImpressionDB(struct ImpressionDB *db,
 {
 
   int i, j, symptomCount, symptomID, idTemp, symptomIDs[symptoms.count];
-  db->count = 0;
 
   String nameTemp;
   ReferenceInput ref;
-  symptomID = symptomCount = 0;
 
   // building the impression
   struct Impression impression;
 
+  db->count = 0;
+  symptomID = symptomCount = 0;
   for (i = 0; i < num; i++)
   {
     initImpression(&impression);

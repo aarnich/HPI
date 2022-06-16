@@ -29,14 +29,15 @@ getPatient(struct Patient *p)
 {
   ReferenceInput ref;
 
+  String name, patientNumber;
+  char Gender = ' ';
+
   // get patient name
-  String name;
   printf("What is your name?\n");
   getStr(name);
   strcpy(p->name, name);
 
   // get patient number
-  String patientNumber;
   printf("What is your patient number?\n");
   getStr(patientNumber);
   strcpy(p->patientNumber, patientNumber);
@@ -47,7 +48,6 @@ getPatient(struct Patient *p)
 
   // get patient gender
   printf("Gender (M/F): ");
-  char Gender = ' ';
   strcpy(ref, "MF");
   inputHandler(CHAR, ref, (int *)&Gender);
   p->gender = Gender;
@@ -103,6 +103,7 @@ validateImpression(struct Impression input, struct userSymps us)
 
   int i;
   int retval = 1;
+
   for (i = 0; i < input.sympCount; i++)
   {
     if (!isFound(us.arr, input.sympCount, input.correspondingSymptoms[i]))
@@ -177,6 +178,8 @@ readPatientDetails(struct Patient p)
     // file does not exist, return
     return;
   }
+
+  // only create the line variable if the file exists
   char line[100];
 
   printf("\n");
@@ -274,13 +277,15 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
 void
 PatientProcess(struct SymptomDB sDB, struct ImpressionDB iDB)
 {
+
+  struct Patient p;
+  struct userImps ui;
+  struct userSymps us;
+
   interface(PATIENT);
   getchar(); // clear the trailing newline
 
   // initialize all necessary structs
-  struct Patient p;
-  struct userImps ui;
-  struct userSymps us;
 
   // initialize Patient struct
   initPatient(&p);

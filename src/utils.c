@@ -19,6 +19,7 @@ printFile(const char *fileName)
 {
   FILE *fp;
   char c;
+
   fp = fopen(fileName, "r");
   if (fp == NULL)
   {
@@ -120,6 +121,7 @@ handleInt()
 {
   int i;
   int ch = 0;
+
   while (scanf(" %d", &i) != 1)
   {
     printf("Error: argument %d is not an integer\n", i);
@@ -144,6 +146,7 @@ char
 handleCh(ReferenceInput ref)
 {
   char c = '\0';
+
   scanf(" %c", &c);
   while (strchr(ref, toUpper(c)) == NULL)
   {
@@ -166,6 +169,7 @@ void
 handleStr(ReferenceInput ref, char *input)
 {
   String str;
+
   getStr(str);
 
   // locate str substring inside ref
@@ -238,6 +242,7 @@ void
 getStr(char *input)
 {
   char temp[MAX_STRING_LEN + 1];
+
   fgets(temp, MAX_STRING_LEN + 1, stdin);
   trim(temp);
   strcpy(input, temp);
@@ -255,6 +260,7 @@ affirmative(const char *question)
 {
   int retval = 0;
   String ans = " ";
+
   printf("%s\ntype YES (capitalized) if you're sure:\n\n", question);
 
   getchar();

@@ -14,17 +14,16 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
 {
 
   // default welcoming message
-  printf("\nMENU #2 Doctor\n\n");
 
+  struct Impression imp;
   char opt = ' ', exitFlag = 'E';
-
   int count = 0, impressionID = -1, aff = 0;
 
-  String impression = " ";
   ReferenceInput ref = " ";
+  String impression = " ";
 
+  printf("\nMENU #2 Doctor\n\n");
   // initialize default impression
-  struct Impression imp;
   initImpression(&imp);
 
   do
@@ -83,7 +82,7 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         if (fileExists("Symptoms.txt"))
         {
           readSymptomDB(sDB, "Symptoms.txt");
-          printf("Symptoms successfully loaded.\n");
+          printf("\nSymptoms successfully loaded.\n");
         }
         else
           printf("\nNo symptoms found.\n");
@@ -91,7 +90,7 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         if (fileExists("Impressions.txt"))
         {
           readImpressionDB(iDB, "Impressions.txt");
-          printf("Impressions successfully loaded.\n");
+          printf("\nImpressions successfully loaded.\n");
         }
         else
           printf("\nNo impressions found.\n");
