@@ -71,7 +71,7 @@ getPatientSymptoms(struct SymptomDB db, struct userSymps *us)
   for (i = 0; i < db.count; i++)
   {
     // ask the symptom's question
-    printf("%s\n", db.database[i].question);
+    printf("%s (Y/N)\n", db.database[i].question);
     inputHandler(CHAR, ref, (int *)&c);
 
     // if the user answered yes, add it to the userSymps struct
@@ -223,7 +223,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
   }
 
   if (us.count == 0)
-    fprintf(fp, " no symptoms!");
+    fprintf(fp, " no symptoms! ");
   else
   {
     for (i = 0; i < us.count - 1; i++)
@@ -243,7 +243,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
   fprintf(fp, "Impressions are");
 
   if (ui.count == 0)
-    fprintf(fp, " none! They are relatively healthy");
+    fprintf(fp, " none! They are relatively healthy ");
   else
   {
     for (i = 0; i < ui.count - 1; i++)
