@@ -42,15 +42,17 @@ getPatient(struct Patient *p)
   strcpy(p->patientNumber, patientNumber);
 
   // get patient age
-  printf("Enter your age:\n");
+  printf("Enter your age: ");
   inputHandler(INT, ref, &p->age);
 
   // get patient gender
-  printf("Gender (M/F):\n");
+  printf("Gender (M/F): ");
   char Gender = ' ';
   strcpy(ref, "MF");
   inputHandler(CHAR, ref, (int *)&Gender);
   p->gender = Gender;
+
+  getchar();
 }
 
 /**
@@ -71,7 +73,7 @@ getPatientSymptoms(struct SymptomDB db, struct userSymps *us)
   for (i = 0; i < db.count; i++)
   {
     // ask the symptom's question
-    printf("%s (Y/N)\n", db.database[i].question);
+    printf("\n%s (Y/N): ", db.database[i].question);
     inputHandler(CHAR, ref, (int *)&c);
 
     // if the user answered yes, add it to the userSymps struct
@@ -230,7 +232,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
     {
       fprintf(fp, " %s", us.symName[i]);
 
-      if ((i - us.count - 1) >= 1)
+      if ((us.count - 1 - i) > 1)
         fprintf(fp, ",");
     }
 
@@ -250,7 +252,7 @@ writeUserDetails(struct Patient p, struct userImps ui, struct userSymps us)
     {
       fprintf(fp, " %s", ui.impName[i]);
 
-      if ((i - ui.count - 1) >= 1)
+      if ((ui.count - 1 - i) > 1)
         fprintf(fp, ",");
     }
 

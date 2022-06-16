@@ -502,7 +502,7 @@ modifyImpressionSymptoms(struct Impression *imp, struct SymptomDB db)
   for (j = 0; j < symptomCount; j++)
   {
     symp = getSymptomFromID(db, imp->correspondingSymptoms[j]);
-    printf("\t%s\n", symp.name);
+    printf("\t\t\t%s\n", symp.name);
   }
 
   getchar();

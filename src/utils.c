@@ -255,7 +255,7 @@ affirmative(const char *question)
 {
   int retval = 0;
   String ans = " ";
-  printf("%s\ntype YES (capitalized) if you're sure:\n", question);
+  printf("%s\ntype YES (capitalized) if you're sure:\n\n", question);
 
   getchar();
   getStr(ans);
