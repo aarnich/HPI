@@ -145,7 +145,7 @@ void displayImpressionSymptoms(struct Impression imp, struct SymptomDB db);
 void getAllImpressionIDs(struct ImpressionDB db, int *impressionIDs);
 
 /**
- * @Description : Use this function to get the matching impression from its name
+ * @Description : Use this function to get the matching impression from its ID
  *
  * @Param db - The impression database to search in
  * @Param ID - The ID of the impression to search for
