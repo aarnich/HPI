@@ -168,6 +168,7 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
           // if the impression exists, ask the user to modify its symptoms
           impressionID = imp.id;
           modifyImpressionSymptoms(&iDB->database[impressionID - 1], *sDB);
+          writeImpressions(iDB, "Impressions.txt");
         }
         con();
         break;
