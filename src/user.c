@@ -5,7 +5,7 @@
 
 /**
  * @Description : Initializes a patient struct and stores all values to the
- * given patient struct address;
+ * given patient struct address
  *
  * @Param p - the patient struct address
  */
@@ -60,7 +60,7 @@ getPatient(struct Patient *p)
  *
  * @Param db - the symptom database
  * @Param us - the address of the userSymps struct where all symptoms are stored
- * @Precondition - the pateint struct has already been initalized
+ * @Precondition - the patient struct has already been initalized
  */
 void
 getPatientSymptoms(struct SymptomDB db, struct userSymps *us)
@@ -188,7 +188,7 @@ readPatientDetails(struct Patient p)
 }
 
 /**
- * @Description : Savess the patient's information to a text file generated from
+ * @Description : Saves the patient's information to a text file generated from
  * the user's patient number
  *
  * @Param p - the patient struct

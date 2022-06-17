@@ -63,13 +63,13 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         // save the symptom database to a file
         writeSymptoms(sDB, "Symptoms.txt");
 
-        // create the impression database from user input
         clear();
 
-        // get number of symptoms from the user
+        // get number of impressions from the user
         printf("\n\nHow many impressions do you want to consider? ");
         inputHandler(INT, ref, &count);
 
+        // create the impression database from user input
         createNewImpressionDB(iDB, count, *sDB);
 
         // save the impression database to a file
@@ -154,7 +154,7 @@ DoctorProcess(struct SymptomDB *sDB, struct ImpressionDB *iDB)
         // clear extra newline character
         getchar();
 
-        // get the symptom name from the user
+        // get the impression name from the user
         printf("\nWhat is the impression?\n");
         getStr(impression);
 

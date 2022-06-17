@@ -16,7 +16,8 @@
  * @Attribute String* arr - Array of symptom names
  * @Attribute int count - Number of symptoms
  */
-struct userSymps {
+struct userSymps
+{
   int arr[MAX_SYMPTOMS];
   String symName[MAX_SYMPTOMS];
   int count;
@@ -28,7 +29,8 @@ struct userSymps {
  * @Attribute String* impName - Stores impression names
  * @Attribute int count - Stores the number of impressions
  */
-struct userImps {
+struct userImps
+{
   int arr[MAX_IMPRESSIONS];
   String impName[MAX_IMPRESSIONS];
   int count;
@@ -41,7 +43,8 @@ struct userImps {
  * @Attribute String patientNumber - patient number of the patient
  * @Attribute char gender - the patient's gendder represented by M/F
  */
-struct Patient {
+struct Patient
+{
   String patientNumber;
   int age;
   String name;
@@ -55,7 +58,8 @@ struct Patient {
  * @Attribute String question - question that is asked to confirm the existence
  * of the symptom
  */
-struct Symptom {
+struct Symptom
+{
   int id;
   String name;
   String question;
@@ -66,7 +70,8 @@ struct Symptom {
  * @Attribute count - the number of symptoms in the database
  * @Attribute database - the array containing the symptoms
  */
-struct SymptomDB {
+struct SymptomDB
+{
   int count;
   struct Symptom database[MAX_SYMPTOMS];
 };
@@ -80,7 +85,8 @@ struct SymptomDB {
  * @Attribute int* correspondingSymptoms - the array containing the symptom IDs
  * for all symptoms associated with the impression
  */
-struct Impression {
+struct Impression
+{
   String name;
   int id;
   int sympCount;
@@ -90,9 +96,10 @@ struct Impression {
 /**
  * @Description : Impression database
  * @Attribute int count - the number of impressions in the database
- * @Attribute Impression* - database - the array containing the impressions
+ * @Attribute Impression* database - the array containing the impressions
  */
-struct ImpressionDB {
+struct ImpressionDB
+{
   int count;
   struct Impression database[MAX_IMPRESSIONS];
 };

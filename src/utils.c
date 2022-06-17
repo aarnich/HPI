@@ -114,7 +114,7 @@ con()
 /**
  * @Description : handles an input of type INT
  *
- * @Returns : A valid inteeer
+ * @Returns : A valid integer
  */
 int
 handleInt()
